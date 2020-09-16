@@ -35,8 +35,8 @@ def user_id():
 	
 def active_state():
     user_id = user_id()
-    sql ="SELECT active_state FROM users WHERE users_id=:user_id"
-    result = db.session.execute(sql, {"users_id":user_id})
+    sql ="SELECT active_status FROM users WHERE id=:user_id"
+    result = db.session.execute(sql, {"id":user_id})
     state = result.fetchone()
     return state
 

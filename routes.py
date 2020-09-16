@@ -15,7 +15,7 @@ def login():
         password = request.form["password"]
         if users.login(username,password):
             session["username"] = username
-            session["active_state"] = users.active_state()
+            session["active_state"] = users.active_state()[0]
             return redirect("/")
         else:
             return render_template("error.html",message="Väärä käyttäjätunnus tai salasana!")

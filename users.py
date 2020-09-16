@@ -32,13 +32,13 @@ def logout():
 
 def user_id():
 	return session.get("user_id",0)
-	
+
 def active_state():
-    user_id = user_id()
-    sql ="SELECT active_state FROM users WHERE users_id=:user_id"
-    result = db.session.execute(sql, {"users_id":user_id})
-    state = result.fetchone()
-    return state
+	id = user_id()
+	sql = "SELECT active_status FROM users WHERE id=:user_id"
+	result = db.session.execute(sql, {"user_id":id})
+	state = result.fetchone()
+	return state
 
 
 

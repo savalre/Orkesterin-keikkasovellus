@@ -1,0 +1,20 @@
+<title>SOSSun keikkasovellus!</title>
+
+<h2>Oma profiilisi</h2>
+
+{% if session.user_id %}
+
+Käyttäjätunnus: {{session.username}}
+<br>
+
+Soittimesi:
+<br>
+
+Aktiivinen tällä kaudella: {{session.active_state}}
+<br>
+
+tähän ahref Muokkaa tietojasi
+<br>
+
+<a href="/">Palaa etusivulle</a>
+{% endif %}

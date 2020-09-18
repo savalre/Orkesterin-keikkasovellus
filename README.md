@@ -18,8 +18,8 @@ Käyttäjä voi ilmoittautua keikalle valitsemallaan soittimella. Käyttäjä n�
 
 Admin näkee keikan kokoonpanon, eli keikalle ilmoittautuneet soittajat soitinryhmittäin: 
   Esimerkki:
-    Pasuunat: ps1 Lambi
-              ps2 Wolfgang
-              ps3 
+    Pasuunat: ps1: "Lambi"
+              ps2: "Wolfgang"
+              ps3: "TYHJÄ"
               
 Ylläolevassa tilanteessa pasuuna 3:een ei ole ilmoittautunut soittajaa. Admin voi hakea listan pasuunaa soittavista orkesterilaisista, jotka ovat listanneet statuksekseen "aktiivinen". Näin admin saa selville suoraan ketä voi pyytää keikalle. Samoin voi toimia minkä tahansa soittimen kohdalla.

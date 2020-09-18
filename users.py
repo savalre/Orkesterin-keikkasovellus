@@ -40,5 +40,30 @@ def active_state():
 	state = result.fetchone()
 	return state
 
+def get_soitin():
+	id = user_id()
+	sql = "SELECT S.nimi FROM soitin S, soittajat So WHERE So.users_id=:user_id AND So.soitin_id = S.id"
+	result = db.session.execute(sql, {"user_id":id})
+	soitin = result.fetchone()
+	print(soitin)
+	if soitin == None:
+		palautus = "Ei vielä valittu"
+		print(palautus)
+		return palautus
+	else:
+		return soitin
 
+def muutatila(uusitila):
+	id = user_id()
+	sql = "UPDATE users SET active_status = :uusitila WHERE id = :user_id"
+	db.session.execute(sql, {"uusitila":uusitila,"user_id":id})
+	print("Uusi tila on:",uusitila)
+	db.session.commit()
 
+def muutasoitin(soitinvalinta):
+	id = user_id()
+	sql = "UPDATE soittajat SET users_id =:user_id, soitin_id=:soitinvalinta WHERE users_id=:user_id"
+	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitinvalinta})
+	print("lisäsin soittajiin: ", soitinvalinta)
+	db.session.commit()
+	

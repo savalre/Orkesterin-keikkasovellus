@@ -67,7 +67,8 @@ def muutasoitin(soitinvalinta):
 	sql = "SELECT soitin_id FROM soitin WHERE soitin_id=:soitinvalinta"
 	result = db.session.execute(sql, {"soitinvalinta":soitinvalinta})
 	print("olen lisäämässä tällaista kun: ", soitinvalinta)
+	luku = int(soitinvalinta)
 	sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id, :soitinvalinta)"
-	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitinvalinta})
+	db.session.execute(sql, {"user_id":id,"soitinvalinta":luku})
 	print("lisäsin soittajiin: ", soitinvalinta)
 	db.session.commit()

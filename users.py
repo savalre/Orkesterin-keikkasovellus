@@ -66,7 +66,7 @@ def muutasoitin(soitinvalinta):
 	db.session.execute(sql, {"user_id":id})
 	sql = "SELECT soitin_id FROM soitin WHERE soitin_id=:soitinvalinta"
 	result = db.session.execute(sql, {"soitinvalinta":soitinvalinta})
-	soitin = result.fetchone()
+	soitin = result.fetchall()
 	sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id, :soitinvalinta)"
 	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitin})
 	print("lisäsin soittajiin: ", soitinvalinta)

@@ -37,14 +37,20 @@ def active_state():
 	id = user_id()
 	sql = "SELECT active_status FROM users WHERE users_id=:user_id"
 	result = db.session.execute(sql, {"user_id":id})
-	state = result.fetchone()
-	return state
+	state = result.fetchone()[0]
+	print("Olen def active_state(). State = ",state)
+	if state == True:
+		tila = "Kyllä"
+		return tila
+	if state == False:
+		tila = "Ei"
+		return tila
 
 def get_soitin():
 	id = user_id()
 	sql = "SELECT S.nimi FROM soitin S, soittajat So WHERE So.users_id=:user_id AND So.soitin_id = S.soitin_id"
 	result = db.session.execute(sql, {"user_id":id})
-	soitin = result.fetchone()
+	soitin = result.fetchone()[0]
 	print(soitin)
 	if soitin == None:
 		palautus = "Ei vielä valittu"

@@ -48,7 +48,6 @@ def userinfo():
 @app.route("/edit_user",methods=["get","post"])
 def edit_user():
 	soittimet = soitin.get_soittimet()
-	print(soittimet)
 	return render_template("edit_user.html", soitin=soittimet)
 	
 @app.route("/userUpdated", methods=["post"])

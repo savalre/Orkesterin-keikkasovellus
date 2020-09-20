@@ -1,4 +1,4 @@
-# tsoha_savalre
+# Orkesterin-keikkasovellus
 Kurssin Tietokantasovellus repositorio 
 
 Projektin aihe: Orkesterin keikkasovellus

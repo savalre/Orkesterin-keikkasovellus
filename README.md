@@ -1,6 +1,8 @@
 # Orkesterin-keikkasovellus
 Kurssin Tietokantasovellus repositorio 
 
+Kokeilen pushata nimenmuutoksen jälkeen 
+
 Projektin aihe: Orkesterin keikkasovellus
 
 Orkesterin keikkasovellus on selainpohjainen sovellus, jossa orkesteri voi lisätä keikkoja ja soittaja voi ilmoittautua keikoille. Sovellus on tarkoitettu yksittäisen orkesterin käyttöön, ei niinkään julkiseksi keikkapalveluksi. Tarkoituksena on luoda sovellus, joka hyödyttää orkesteria kokoamalla yleisimmät säätöä aiheuttavat toiminnot yhteen sovellukseen, eli keikkojen ja niiden kokoonpanon hallinnoinnin. Ulkoasu ja toiminnot on mallinnettu Savolaisen Osakunnan Soitannallisen seuran SOSSu ry:n toimintojen perusteella, mutta ovat muokattavissa muidenkin kokoonpanojen tarpeisiin.

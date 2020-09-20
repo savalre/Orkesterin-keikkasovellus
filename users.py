@@ -14,7 +14,7 @@ def register(username,password):
 	return login(username,password)
 
 def login(username,password):
-	sql = "SELECT password, id FROM users WHERE username=:username"
+	sql = "SELECT password, users_id FROM users WHERE username=:username"
 	result = db.session.execute(sql, {"username":username})
 	user = result.fetchone()
 	if user == None:
@@ -35,14 +35,14 @@ def user_id():
 
 def active_state():
 	id = user_id()
-	sql = "SELECT active_status FROM users WHERE id=:user_id"
+	sql = "SELECT active_status FROM users WHERE users_id=:user_id"
 	result = db.session.execute(sql, {"user_id":id})
 	state = result.fetchone()
 	return state
 
 def get_soitin():
 	id = user_id()
-	sql = "SELECT S.nimi FROM soitin S, soittajat So WHERE So.users_id=:user_id AND So.soitin_id = S.id"
+	sql = "SELECT S.nimi FROM soitin S, soittajat So WHERE So.users_id=:user_id AND So.soitin_id = S.soitin_id"
 	result = db.session.execute(sql, {"user_id":id})
 	soitin = result.fetchone()
 	print(soitin)
@@ -55,7 +55,7 @@ def get_soitin():
 
 def muutatila(uusitila):
 	id = user_id()
-	sql = "UPDATE users SET active_status = :uusitila WHERE id = :user_id"
+	sql = "UPDATE users SET active_status = :uusitila WHERE users_id = :user_id"
 	db.session.execute(sql, {"uusitila":uusitila,"user_id":id})
 	print("Uusi tila on:",uusitila)
 	db.session.commit()
@@ -64,8 +64,7 @@ def muutasoitin(soitinvalinta):
 	id = user_id()
 	sql = "DELETE FROM soittajat WHERE users_id=:user_id"
 	db.session.execute(sql, {"user_id":id})
-	sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id,:soitinvalinta)"
+	sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id, soitinvalinta)"
 	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitinvalinta})
 	print("lisäsin soittajiin: ", soitinvalinta)
 	db.session.commit()
-	

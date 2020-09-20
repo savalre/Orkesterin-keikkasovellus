@@ -15,14 +15,15 @@ def login():
 		password = request.form["password"]
 		if users.login(username,password):
 			session["username"] = username
+			session["user_id"] = users.user_id()
 			session["active_state"] = users.active_state()[0]
 			return redirect("/")
 		else:
 			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana!")
 
-@app.route("/logout")
+@app.route("/logout", methods=["get"])
 def logout():
-	del session["user_id"]
+	users.logout()
 	return redirect("/")
 
 @app.route("/register",methods=["get","post"])
@@ -33,6 +34,7 @@ def register():
 		username = request.form["username"]
 		password = request.form["password"]
 		if users.register(username,password):
+			session["username"] = username
 			return redirect("/")
 		else:
 			return render_template("error.html",message="Rekisteröinti ei onnistunut")

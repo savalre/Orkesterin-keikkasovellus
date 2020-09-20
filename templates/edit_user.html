@@ -10,19 +10,19 @@ Käyttäjätunnus: {{session.username}}
 
 <p>Soittimesi:</p>
 <br>
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="1">Viulu 1 
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="2">Viulu 2
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="3">Alttoviulu
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="4">Sello
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="5">Huilu
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="6">Klarinetti
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="7">Alttosaxofoni
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="8">Tenorisaxofoni
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="9">Trumpetti
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="10">Käyrätorvi
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="11">Pasuuna
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="12">Basso
-<input type="radio" name="soitin" onclick="soitinValinta(this.value)" value="13">Rummut
+<input type="radio" name="soitin" value="1">Viulu 1 
+<input type="radio" name="soitin" value="2">Viulu 2
+<input type="radio" name="soitin" value="3">Alttoviulu
+<input type="radio" name="soitin" value="4">Sello
+<input type="radio" name="soitin" value="5">Huilu
+<input type="radio" name="soitin" value="6">Klarinetti
+<input type="radio" name="soitin" value="7">Alttosaxofoni
+<input type="radio" name="soitin" value="8">Tenorisaxofoni
+<input type="radio" name="soitin" value="9">Trumpetti
+<input type="radio" name="soitin" value="10">Käyrätorvi
+<input type="radio" name="soitin" value="11">Pasuuna
+<input type="radio" name="soitin" value="12">Basso
+<input type="radio" name="soitin" value="13">Rummut
 <br>
 <br>
 Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
@@ -39,14 +39,5 @@ Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
 
 <a href="/">Palaa etusivulle</a>
 
-<script>
-function updateStatus(active) {
-document.getElementById("result").value = active;
-}
-
-function updateStatus(soitin){
-document.getElementByid("result").value = soitin;
-}
-</script>
 
 {% endif %}

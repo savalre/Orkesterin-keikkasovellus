@@ -64,7 +64,10 @@ def muutasoitin(soitinvalinta):
 	id = user_id()
 	sql = "DELETE FROM soittajat WHERE users_id=:user_id"
 	db.session.execute(sql, {"user_id":id})
+	sql = "SELECT soitin_id FROM soitin WHERE soitin_id=:soitinvalinta"
+	result = db.session.execute(sql, {"soitinvalinta":soitinvalinta})
+	soitin = result.fetchone()
 	sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id, :soitinvalinta)"
-	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitinvalinta})
+	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitin})
 	print("lisäsin soittajiin: ", soitinvalinta)
 	db.session.commit()

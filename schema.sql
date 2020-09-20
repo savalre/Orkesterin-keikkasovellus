@@ -1,5 +1,5 @@
 CREATE TABLE users(
-	id SERIAL PRIMARY KEY,
+	users_id SERIAL PRIMARY KEY,
 	username TEXT UNIQUE,
 	password TEXT,
 	active_status BOOLEAN,
@@ -7,18 +7,18 @@ CREATE TABLE users(
 );
 
 CREATE TABLE soitin(
-	id SERIAL PRIMARY KEY,
+	soitin_id SERIAL PRIMARY KEY,
 	nimi TEXT,
 	sektio TEXT
 );
 
 CREATE TABLE soittajat(
-	users_id INTEGER REFERENCES users(id),
-	soitin_id INTEGER REFERENCES soitin(id)
+	users_id INTEGER REFERENCES users(users_id),
+	soitin_id INTEGER REFERENCES soitin(soitin_id)
 );
 
 CREATE TABLE keikka(
-	id SERIAL PRIMARY KEY,
+	keikka_id SERIAL PRIMARY KEY,
 	nimi TEXT,
 	aika DATE,
 	paikka TEXT,
@@ -26,8 +26,8 @@ CREATE TABLE keikka(
 );
 
 CREATE TABLE kokoonpano(
-keikka_id INTEGER REFERENCES keikka(id),
-users_id INTEGER REFERENCES users(id),
-soitin_id INTEGER REFERENCES soitin(id),
+keikka_id INTEGER REFERENCES keikka(keikka_id),
+users_id INTEGER REFERENCES users(users_id),
+soitin_id INTEGER REFERENCES soitin(soitin_id),
 UNIQUE (keikka_id,users_id)
 );

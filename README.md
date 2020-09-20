@@ -1,9 +1,11 @@
 # Orkesterin-keikkasovellus
 Kurssin Tietokantasovellus repositorio 
 
-Kokeilen pushata nimenmuutoksen jälkeen 
+##VÄLIPALAUTUS 2:
 
-Projektin aihe: Orkesterin keikkasovellus
+
+
+##Projektin aihe: Orkesterin keikkasovellus
 
 Orkesterin keikkasovellus on selainpohjainen sovellus, jossa orkesteri voi lisätä keikkoja ja soittaja voi ilmoittautua keikoille. Sovellus on tarkoitettu yksittäisen orkesterin käyttöön, ei niinkään julkiseksi keikkapalveluksi. Tarkoituksena on luoda sovellus, joka hyödyttää orkesteria kokoamalla yleisimmät säätöä aiheuttavat toiminnot yhteen sovellukseen, eli keikkojen ja niiden kokoonpanon hallinnoinnin. Ulkoasu ja toiminnot on mallinnettu Savolaisen Osakunnan Soitannallisen seuran SOSSu ry:n toimintojen perusteella, mutta ovat muokattavissa muidenkin kokoonpanojen tarpeisiin.
 
@@ -19,9 +21,11 @@ Käyttäjä voi ilmoittautua keikalle valitsemallaan soittimella. Käyttäjä n�
 
 
 Admin näkee keikan kokoonpanon, eli keikalle ilmoittautuneet soittajat soitinryhmittäin: 
+'''
   Esimerkki:
     Pasuunat: ps1: "Lambi"
               ps2: "Wolfgang"
               ps3: "TYHJÄ"
-              
+'''
+
 Ylläolevassa tilanteessa pasuuna 3:een ei ole ilmoittautunut soittajaa. Admin voi hakea listan pasuunaa soittavista orkesterilaisista, jotka ovat listanneet statuksekseen "aktiivinen". Näin admin saa selville suoraan ketä voi pyytää keikalle. Samoin voi toimia minkä tahansa soittimen kohdalla.

@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, session
-import users, db, soitin
+import users, db, soitin, keikka
 
 @app.route("/")
 def index():
@@ -47,8 +47,7 @@ def userinfo():
 
 @app.route("/edit_user",methods=["get","post"])
 def edit_user():
-	soittimet = soitin.get_soittimet()
-	return render_template("edit_user.html", soitin=soittimet)
+	return render_template("edit_user.html")
 	
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
@@ -59,3 +58,23 @@ def userUpdated():
 	users.muutasoitin(soitinvalinta)
 	return render_template("update.html", message="Profiilisi on päivitetty!")
 
+@app.route("/keikkasivu")
+def keikkasivu():
+	return render_template("keikka.html")
+	
+@app.route("/gigEdit")
+def uusi_keikka():
+	return render_template("addgig.html")
+	
+@app.route("/gigAdd",methods=["post"])
+def gigAdd():
+	nimi = request.form["nimi"]
+	pvm = request.form["pvm"]
+	time = request.form["aika"]
+	paikka = request.form["paikka"]
+	kuvaus = request.form["kuvaus"]
+	kokoonpano = request.form["kokoonpano"]
+	print("Keikkaa lisätään seuraavilla tiedoilla: ", nimi, pvm, time, paikka, kuvaus, kokoonpano)
+	#tähän muutokset
+	keikka.lisaaKeikka(nimi,pvm,time,paikka,kuvaus,kokoonpano)
+	return render_template("gigUpdate.html",message="Keikka lisätty onnistuneesti!")	

@@ -1,0 +1,16 @@
+<title>SOSSun keikkasovellus!</title>
+
+<a href="/">Palaa etusivulle</a>
+<br>
+
+<h2>Keikkasivu</h2>
+
+{% if session.user_id %}
+
+OMAT KEIKAT<br>
+<br>
+TULEVAT KEIKAT<br>
+<br>
+<a href="/gigEdit">Lisää keikka</a> <!-- Vain admin--> 
+<br>
+{% endif %}

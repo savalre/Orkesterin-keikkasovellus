@@ -1,0 +1,35 @@
+<title>SOSSun keikkasovellus!</title>
+<a href="/">Palaa etusivulle</a>
+<br>
+<a href="/keikkasivu">Palaa keikkasivulle</a>
+<br>
+<h2>Lisää uusi keikka</h2>
+
+{% if session.user_id %}
+<form action="/gigAdd" method="POST">
+
+<p>Keikan nimi:<br>
+<input type="text" name="nimi"></p>
+<br>
+<p>Päivämäärä:<br>
+<input type="date" name="pvm"></p>
+<br>
+<p>Kellonaika:<br>
+<input type="time" name="aika"></p>
+<br>
+<p>Paikka:<br>
+<input type="text" name="paikka"></p>
+<br>
+<p>Vapaamuotoinen kuvaus:<br>
+<input type="text" name="kuvaus"></p>
+<br>
+<p>Kokoonpano:<br>
+<input type="radio" name="kokoonpano" value="kokoOrkesteri">Koko orkesteri
+<input type="radio" name="kokoonpano" value="jouset">Jouset
+<input type="radio" name="kokoonpano" value="puut">Puut
+<input type="radio" name="kokoonpano" value="vasket">Vasket</p>
+<br>
+<input type="submit" value="Lisää uusi keikka">
+</form>
+
+{% endif %}

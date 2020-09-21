@@ -29,8 +29,8 @@ Käyttäjätunnus: {{session.username}}
 Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
 <br>
 <p>
-<input type="radio" name="active" onclick="updateStatus(this.value)" value="True">Kyllä
-<input type="radio" name="active" onclick="updateStatus(this.value)" value="False">Ei
+<input type="radio" name="active" value="True">Kyllä
+<input type="radio" name="active" value="False">Ei
 <p>
 <input type="submit" value="Lähetä">
 <br>
@@ -39,6 +39,5 @@ Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
 <br>
 
 <a href="/">Palaa etusivulle</a>
-
 
 {% endif %}

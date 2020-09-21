@@ -1,4 +1,4 @@
-# Orkesterin-keikkasovellus
+# Orkesterin keikkasovellus
 Kurssin Tietokantasovellus repositorio
 
 Projektin ulkoasu ja toiminnot on mallinnettu Savolaisen Osakunnan Soitannallisen seuran SOSSu ry:n toimintojen perusteella, mutta ovat muokattavissa muidenkin kokoonpanojen tarpeisiin.

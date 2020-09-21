@@ -20,9 +20,10 @@ CREATE TABLE soittajat(
 CREATE TABLE keikka(
 	keikka_id SERIAL PRIMARY KEY,
 	nimi TEXT,
-	aika DATE,
+	pvm  DATE,
 	paikka TEXT,
 	kuvaus TEXT
+	aika TIME
 );
 
 CREATE TABLE kokoonpano(

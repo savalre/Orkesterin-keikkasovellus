@@ -24,6 +24,7 @@ CREATE TABLE keikka(
 	paikka TEXT,
 	kuvaus TEXT
 	aika TIME
+	kokoonpano TEXT
 );
 
 CREATE TABLE kokoonpano(

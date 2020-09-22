@@ -19,7 +19,7 @@ def login():
 			session["active_state"] = users.active_state()[0]
 			return redirect("/")
 		else:
-			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana!")
+			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana :(")
 
 @app.route("/logout", methods=["get"])
 def logout():
@@ -37,7 +37,7 @@ def register():
 			session["username"] = username
 			return redirect("/")
 		else:
-			return render_template("error.html",message="Rekisteröinti ei onnistunut")
+			return render_template("error.html",message="Hups, rekisteröinti ei onnistunut!")
 
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
@@ -60,7 +60,8 @@ def userUpdated():
 
 @app.route("/keikkasivu")
 def keikkasivu():
-	return render_template("keikka.html")
+	list = keikka.keikkaLista()
+	return render_template("keikka.html", keikat=list)
 	
 @app.route("/gigEdit")
 def uusi_keikka():
@@ -75,6 +76,13 @@ def gigAdd():
 	kuvaus = request.form["kuvaus"]
 	kokoonpano = request.form["kokoonpano"]
 	print("Keikkaa lisätään seuraavilla tiedoilla: ", nimi, pvm, time, paikka, kuvaus, kokoonpano)
-	#tähän muutokset
-	keikka.lisaaKeikka(nimi,pvm,time,paikka,kuvaus,kokoonpano)
-	return render_template("gigUpdate.html",message="Keikka lisätty onnistuneesti!")	
+	if keikka.lisaaKeikka(nimi,pvm,time,paikka,kuvaus,kokoonpano):
+		return render_template("gigUpdate.html",message="Keikka lisätty onnistuneesti!")
+	else:
+		return render_template("error.html",message="Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!")
+		
+@app.route("/deleteGig", methods=["get","post"])
+def deleteGig():
+	id = request.args.get("sid")
+	keikka.poistaKeikka(id)
+	return render_template("gigUpdate.html",message="Keikka poistettu!")

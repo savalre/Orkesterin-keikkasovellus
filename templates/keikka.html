@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <title>SOSSun keikkasovellus!</title>
 
 <a href="/">Palaa etusivulle</a>
@@ -9,8 +11,37 @@
 
 OMAT KEIKAT<br>
 <br>
-TULEVAT KEIKAT<br>
+<h3>TULEVAT KEIKAT</h3>
+<table>
+ 	<thead>
+	<tr>
+		<th>Keikka</th>
+		<th>Päivämäärä</th>
+		<th>Aika</th>
+		<th>Paikka</th>
+		<th>Kuvaus</th>
+		<th>Kokoonpano</th>
+		<th></th>
+		<th></th>
+	</thead>
+	{% for keikka in keikat %}
+	<tr>
+		<td>{{ keikka[1] }}</td>
+		<td>{{ keikka[2] }}</td>
+		<td>{{ keikka[5] }}</td>
+		<td>{{ keikka[3] }}</td>
+		<td>{{ keikka[4] }}</td>
+		<td>{{ keikka[6] }}</td>
+		<td><a href="/editGig" value="{{ keikka[0] }}">Muokkaa</td>
+		<td><a href="/deleteGig?sid={{ keikka[0] }}">Poista</td>  
+	</tr>
+{% endfor %}
+<!--keikat[0] nimi, keikat[1] pvm, keikat [2] aika, keikat [3] paikka, keikat[4] kuvaus,
+keikat[5] kokoonpano -->
+</table>
+
 <br>
 <a href="/gigEdit">Lisää keikka</a> <!-- Vain admin--> 
 <br>
 {% endif %}
+</html>

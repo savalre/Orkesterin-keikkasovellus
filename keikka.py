@@ -29,6 +29,3 @@ def haeTiedot(id):
 	sql = "SELECT nimi, pvm, aika, paikka, kuvaus, kokoonpano FROM keikka WHERE keikka_id=:id"
 	result = db.session.commit(sql,{"id":id})
 	return	result.fetchall()
-
-def muokkaaKeikka(nimi,pvm,time,paikka,kuvaus,kokoonpano):
-	sql = "UPDATE keikka 

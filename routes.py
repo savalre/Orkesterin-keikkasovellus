@@ -81,8 +81,19 @@ def gigAdd():
 	else:
 		return render_template("error.html",message="Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!")
 		
-@app.route("/deleteGig", methods=["get","post"])
+@app.route("/deleteGig")
 def deleteGig():
 	id = request.args.get("sid")
 	keikka.poistaKeikka(id)
 	return render_template("gigUpdate.html",message="Keikka poistettu!")
+
+@app.route("/editGig")
+def editGig():
+	id = request.args.get("sid")
+	list = keikka.haeTiedot(id)
+	return render_template("editGig.html",tiedot=list)
+	
+@app.route("/gigEdited", methods=["post"])
+def gigEdited():
+	#tähän miljoona riviä request.formeja
+	keikka.muokkaaKeikka(#tänne arvojaaa)

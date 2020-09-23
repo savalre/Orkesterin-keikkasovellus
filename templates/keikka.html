@@ -13,7 +13,7 @@ OMAT KEIKAT<br>
 <br>
 <h3>TULEVAT KEIKAT</h3>
 <table>
- 	<thead>
+	<thead>
 	<tr>
 		<th>Keikka</th>
 		<th>Päivämäärä</th>
@@ -32,12 +32,10 @@ OMAT KEIKAT<br>
 		<td>{{ keikka[3] }}</td>
 		<td>{{ keikka[4] }}</td>
 		<td>{{ keikka[6] }}</td>
-		<td><a href="/editGig" value="{{ keikka[0] }}">Muokkaa</td>
-		<td><a href="/deleteGig?sid={{ keikka[0] }}">Poista</td>  
+		<td><a href="/editGig?sid={{ keikka[0] }}">Muokkaa</td><!-- vain admin -->
+		<td><a href="/deleteGig?sid={{ keikka[0] }}">Poista</td><!-- vain admin -->  
 	</tr>
 {% endfor %}
-<!--keikat[0] nimi, keikat[1] pvm, keikat [2] aika, keikat [3] paikka, keikat[4] kuvaus,
-keikat[5] kokoonpano -->
 </table>
 
 <br>

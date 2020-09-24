@@ -3,15 +3,15 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 import soitin
 
-def register(username,password1):
-	hash_value = generate_password_hash(password1)
+def register(username,password):
+	hash_value = generate_password_hash(password)
 	try:
 		sql = "INSERT INTO users (username,password,active_status) VALUES (:username,:password, 'true')"
 		db.session.execute(sql, {"username":username,"password":hash_value,"active_status":'true'})
 		db.session.commit()
 	except:
 		return False
-	return login(username,password1)
+	return login(username,password)
 
 def login(username,password):
 	sql = "SELECT password, users_id FROM users WHERE username=:username"

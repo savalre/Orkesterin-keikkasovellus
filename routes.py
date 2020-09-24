@@ -13,7 +13,7 @@ def login():
 	if request.method == "POST":
 		username = request.form["username"]
 		password = request.form["password"]
-		if users.login(username,password1):
+		if users.login(username,password):
 			session["username"] = username
 			session["user_id"] = users.user_id()
 			session["active_state"] = users.active_state()[0]
@@ -35,7 +35,8 @@ def register():
 		password1 = request.form["password1"]
 		password2 = request.form["password2"]
 		if password1 == password2:
-			if users.register(username,password1):
+			password = password1;
+			if users.register(username,password):
 				session["username"] = username
 				return redirect("/")
 			else:

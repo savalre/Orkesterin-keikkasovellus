@@ -13,7 +13,7 @@ def login():
 	if request.method == "POST":
 		username = request.form["username"]
 		password = request.form["password"]
-		if users.login(username,password):
+		if users.login(username,password1):
 			session["username"] = username
 			session["user_id"] = users.user_id()
 			session["active_state"] = users.active_state()[0]
@@ -32,13 +32,17 @@ def register():
 		return render_template("register.html")
 	if request.method == "POST":
 		username = request.form["username"]
-		password = request.form["password"]
-		if users.register(username,password):
-			session["username"] = username
-			return redirect("/")
-		else:
-			return render_template("error.html",message="Hups, rekisteröinti ei onnistunut!")
-
+		password1 = request.form["password1"]
+		password2 = request.form["password2"]
+		if password1 == password2:
+			if users.register(username,password1):
+				session["username"] = username
+				return redirect("/")
+			else:
+				return render_template("error.html",message="Hups, rekisteröinti ei onnistunut!")
+		else: 
+			return render_template("error.html",message="Salasanat eivät ole samat! Sosselisos")
+		
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
 		soitin = users.get_soitin()

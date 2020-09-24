@@ -7,33 +7,33 @@
 
 {% if session.user_id %}
 <form action="/gigEdited" method="POST">
-
+{% for tieto in tiedot %}
+<input type="hidden" name="keikkaid" value="{{ tieto [0] }}">
 <p>Keikan nimi:<br>
-<input type="text" name="nimi"></p>
+<input type="text" name="nimi" value="{{ tieto[1] }}"></p>
 <br>
 <p>Päivämäärä:<br>
-<input type="date" name="pvm"></p>
+<input type="date" name="pvm" value="{{ tieto[2] }}"></p>
 <br>
 <p>Kellonaika:<br>
-<input type="time" name="aika"></p>
+<input type="time" name="aika" value="{{ tieto[3] }}"></p>
 <br>
 <p>Paikka:<br>
-<input type="text" name="paikka"></p>
+<input type="text" name="paikka" value="{{ tieto[4] }}"></p>
 <br>
 <p>Vapaamuotoinen kuvaus:<br>
-<input type="text" name="kuvaus"></p>
+<input type="text" name="kuvaus" value="{{ tieto[5] }}"></p>
 <br>
+{% endfor %}
 <p>Kokoonpano:<br>
-<input type="radio" name="kokoonpano" value="kokoOrkesteri">Koko orkesteri
-<input type="radio" name="kokoonpano" value="jouset">Jouset
-<input type="radio" name="kokoonpano" value="puut">Puut
-<input type="radio" name="kokoonpano" value="vasket">Vasket</p>
+<input type="radio" name="kokoonpano" value="Koko Orkesteri">Koko orkesteri
+<input type="radio" name="kokoonpano" value="Jouset">Jouset
+<input type="radio" name="kokoonpano" value="Puut">Puut
+<input type="radio" name="kokoonpano" value="Vasket">Vasket</p>
 <br>
 <input type="submit" value="Tallenna">
 </form>
 
-{% endif %}
 <br>
 <a href="/keikkasivu">Palaa keikkasivulle</a>
-
-
+{% endif %}

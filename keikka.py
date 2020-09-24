@@ -26,6 +26,13 @@ def poistaKeikka(id):
 	db.session.commit()
 	
 def haeTiedot(id):
-	sql = "SELECT nimi, pvm, aika, paikka, kuvaus, kokoonpano FROM keikka WHERE keikka_id=:id"
-	result = db.session.commit(sql,{"id":id})
-	return	result.fetchall()
+	print("pääsin hakemaan keikan tietoja")
+	sql = "SELECT keikka_id, nimi, pvm, aika, paikka, kuvaus, kokoonpano FROM keikka WHERE keikka_id=:id"
+	result = db.session.execute(sql,{"id":id})
+	return result.fetchall()
+
+def muokkaaKeikka(id, nimi,pvm,time,paikka,kuvaus,kokoonpano):
+	sql = "UPDATE keikka SET nimi = :nimi, pvm = :pvm, aika = :time, paikka = :paikka, kuvaus = :kuvaus, kokoonpano = :kokoonpano WHERE keikka_id=:id"
+	db.session.execute(sql, {"nimi":nimi,"pvm":pvm,"time":time,"paikka":paikka,"kuvaus":kuvaus,"kokoonpano":kokoonpano,"id":id})
+	db.session.commit()
+	return True

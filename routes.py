@@ -60,13 +60,13 @@ def userUpdated():
 
 @app.route("/keikkasivu")
 def keikkasivu():
-	list = keikka.keikkaLista()
-	return render_template("keikka.html", keikat=list)
+	lista = keikka.keikkaLista()
+	return render_template("keikka.html", keikat=lista)
 	
-@app.route("/gigEdit")
+@app.route("/newGig")
 def uusi_keikka():
 	return render_template("addgig.html")
-	
+
 @app.route("/gigAdd",methods=["post"])
 def gigAdd():
 	nimi = request.form["nimi"]
@@ -91,4 +91,19 @@ def deleteGig():
 def editGig():
 	id = request.args.get("sid")
 	list = keikka.haeTiedot(id)
+	print(list)
 	return render_template("editGig.html",tiedot=list)
+
+@app.route("/gigEdited", methods=["post"])
+def gigEdited():
+	id = request.form["keikkaid"]
+	nimi = request.form["nimi"]
+	pvm = request.form["pvm"]
+	time = request.form["aika"]
+	paikka = request.form["paikka"]
+	kuvaus = request.form["kuvaus"]
+	kokoonpano = request.form["kokoonpano"]
+	if keikka.muokkaaKeikka(id,nimi,pvm,time,paikka,kuvaus,kokoonpano):
+		return render_template("gigUpdate.html",message="Keikan tiedot päivitetty!")
+	else:
+		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")

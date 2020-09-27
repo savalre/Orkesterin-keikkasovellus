@@ -42,7 +42,7 @@ def register():
 			else:
 				return render_template("error.html",message="Hups, rekisteröinti ei onnistunut!")
 		else: 
-			return render_template("error.html",message="Salasanat eivät ole samat! Sosselisos")
+			return render_template("error.html",message="Salasanat eivät ole samat! Kokeile uudestaan")
 		
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
@@ -112,3 +112,9 @@ def gigEdited():
 		return render_template("gigUpdate.html",message="Keikan tiedot päivitetty!")
 	else:
 		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")
+
+@app.route("/kokoonpano")
+def kokoonpano():
+	kp = request.args.get("skp")
+	#tähän kamaa
+	return render_template("kokoonpano.html",kp=kp)

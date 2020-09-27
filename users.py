@@ -50,7 +50,7 @@ def get_soitin():
 	id = user_id()
 	sql = "SELECT S.nimi FROM soitin S, soittajat So WHERE So.users_id=:user_id AND So.soitin_id = S.soitin_id"
 	result = db.session.execute(sql, {"user_id":id})
-	soitin = result.fetchone()
+	soitin = result.fetchone()[0] #tämä kaataa herokun. miksi ???? 
 	print(soitin)
 	if soitin == None:
 		palautus = "Ei vielä valittu"
@@ -66,7 +66,7 @@ def muutatila(uusitila):
 	print("Uusi tila on:",uusitila)
 	db.session.commit()
 
-def muutasoitin(soitinvalinta):
+def muutasoitin(soitinvalinta): #update toimii keikka.muokkaaKeikka() hyvin, pitäisiköhän muuttaa tähän
 	id = user_id()
 	sql = "DELETE FROM soittajat WHERE users_id=:user_id"
 	db.session.execute(sql, {"user_id":id})

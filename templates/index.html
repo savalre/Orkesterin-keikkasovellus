@@ -1,20 +1,65 @@
+<! DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+	margin: 0;
+	font-family: "Courier New", Courier, monospace;
+	height: 100%;
+}
+
+.backgroundGradient{
+	background: linear-gradient(to bottom, white, #FFC0CB);
+	color: black;
+	height: 100%;
+}
+
+.indexBar{
+        overflow: hidden;
+        background-color: #FF96CA;
+
+}
+
+.indexBar a{
+	float: left;
+	color: black;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;		
+}
+
+.indexBar a:hover {
+	background-color: #FFC0CB;
+	color: black;
+}
+
+.indexBar a.active {
+	background-color: #FF69B4;
+	color: black;
+}
+</style>
+</head>
 <title>SOSSun keikkasovellus!</title>
-<h1>SOSSun keikkasovellus!</h1>
 
 {% if session.user_id %}
-
-<p>Olet kirjautunut sisään! Tervetuloa {{session.username}}!</p>
-
-<a href="/keikkasivu">Keikkasivu</a>
-
-<a href="/userinfo">Oma profiilisi</a>
-
-<a href="/logout">Kirjaudu ulos</a>
+<body>
+<div class="indexBar">
+	<a class="active" href="/">Etusivu</a>
+	<a href="/keikkasivu">Keikkasivu</a>
+	<a href="/userinfo">Oma profiilisi</a>
+	<a href="/logout">Kirjaudu ulos</a>
+</div>
+<div class="backgroundGradient">
+<p>Tervetuloa {{session.username}}! Tässä sovelluksessa voit ilmoittautua orkesterin keikoille</p>
+</div>
+</body>
 
 {% else %}
 
+<body>
 <b>Tervetuloa, kirjaudu sisään!</b>
-
+<div class="backgroundGradient">
 <form action="/login" method="POST">
 <p>Käyttäjätunnus:<br>
 <input type="text" name="username"></p>
@@ -24,5 +69,7 @@
 </form>
 
 <a href="/register">Luo uusi tunnus tästä</a>
-
 {% endif %}
+</div>
+</body>
+</html>

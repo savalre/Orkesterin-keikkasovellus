@@ -8,7 +8,6 @@ def lisaaKeikka(nimi,pvm,time,paikka,kuvaus,kokoonpano):
 	db.session.commit()
 	return True
 
-	
 def haeKeikkaId(nimi,pvm,time,paikka,kuvaus):
 	sql = "SELECT keikka_id FROM keikka WHERE nimi=:nimi,pvm=:pvm,time=:time,paikka=:paikka,kuvaus=:kuvaus"
 	db.session.execute(sql, {"nimi":nimi,"pvm":pvm,"time":time,"paikka":paikka,"kuvaus":kuvaus})

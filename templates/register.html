@@ -1,9 +1,27 @@
-<title>SOSSun keikkasovellus!</title>
+<! DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+        margin: 0;
+        font-family: "Courier New", Courier, monospace;
+        height: 100%;
+}
 
+.backgroundGradient{
+        background: linear-gradient(to bottom, white, #FFC0CB);
+        color: black;
+        height: 100%;
+}
+
+</style>
+</head>
+<body>
+<title>SOSSun keikkasovellus!</title>
+<div class="backgroundGradient">
 <h1>Rekisteröityminen keikkasovellukseen</h1>
 
 <p>Täällä voit luoda uudet tunnukset. Käytä käyttäjätunnuksenasi orkesterinimeäsi, tai sen puuttuessa omaa etunimeäsi!</p>
-
 
 {% if session.user_id %}
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
@@ -23,3 +41,7 @@
 
 <a href="/">Peruuta</a>
 {% endif %}
+</div>
+</body>
+</html>
+

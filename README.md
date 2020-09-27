@@ -14,7 +14,7 @@ Sovelluksen ulkonäkö on vielä karkea, mutta omasta mielestäni tärkein asia 
 Seuraavaksi on tavoite rakentaa keikkailmoittautumispuoli sovellukseen, sekä lähteä eriyttämään adminin ja peruskäyttäjän näkymiä. 
 
 <h3>Projektin testaus:</h3>
-Sovellusta voi testata Herokussa: https://orkesterin-keikkasovellus.herokuapp.com/
+Sovellusta voi testata Herokussa: LINKKI POISTETTU HUOLLON AJAKSI
 <br>
 
 Sovelluksen toiminnot ovat vielä hyvin rajallisia, mutta käyttäjä voi luoda tunnukset sovellukseen ja tehdä "projektin tämänhetkinen tilanne" -otsikon alla lueteltuja toimintoja.

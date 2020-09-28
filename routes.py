@@ -112,9 +112,33 @@ def gigEdited():
 		return render_template("gigUpdate.html",message="Keikan tiedot päivitetty!")
 	else:
 		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")
+		
+@app.route("/ilmo")
+def ilmo():
+	id = request.args.get("sid")
+	userId = users.user_id()
+	tiedot= keikka.haeTiedot(id)
+	soittimet = users.get_soitin()
+	return render_template("ilmo.html", tiedot=tiedot, soittimet=soittimet)
 
+@app.route("/ilmoDone", methods=["post"])
+def ilmoDone():
+	soitin = request.form["soitin"] #tähän se kusee
+	keikkaId = request.form["id"]
+	print("tällasella menossa ilmoittautumaan: ", soitin)
+	userId = users.user_id()
+	keikka.lisaaSoittaja(keikkaId,userId,soitin)
+	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui!")
+	
 @app.route("/kokoonpano")
 def kokoonpano():
 	kp = request.args.get("skp")
-	#tähän kamaa
-	return render_template("kokoonpano.html",kp=kp)
+	id = request.args.get("sid")
+	if kp == "Koko_orkesteri":
+		kp_nimet = soitin.haeKokoOrkkaSoittimet()
+		kp_id = soitin.haeKokoOrkkaId()
+	else:
+		kp_nimet = soitin.haePienryhmaSoittimet(kp)
+		kp_id = soitin.haePienryhmä_idt(kp)
+	keikkatiedot = keikka.haeTiedot(id)
+	return render_template("kokoonpano.html", soitinNimet = kp_nimet, soitinIdt = kp_id, kt = keikkatiedot)

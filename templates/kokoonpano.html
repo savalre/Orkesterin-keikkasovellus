@@ -1,4 +1,3 @@
-
 <! DOCTYPE html>
 <html>
 <head>
@@ -34,37 +33,37 @@ body {
         background-color: #FFC0CB;
         color: black;
 }
-
-.indexBar a.active {
-        background-color: #FF69B4;
-        color: black;
-}
 </style>
 </head>
 
 <title>SOSSun keikkasovellus!</title>
 
 {% if session.user_id %}
+
 <body>
 <div class="indexBar">
         <a href="/">Etusivu</a>
-        <a href="/keikkasivu">Keikkasivu</a>
-        <a class="active" href="/userinfo">Oma profiilisi</a>
+        <a class="active" href="/keikkasivu">Keikkasivu</a>
+	 <a href="/userinfo">Oma profiilisi</a>
         <a href="/logout">Kirjaudu ulos</a>
 </div>
 <br>
 <div class="backgroundGradient">
-Käyttäjätunnus: {{session.username}}
+{% for tieto in kt %}
+
+<h3>{{ tieto[1] }}</h3>
 <br>
-Soittimesi: {{instrument}}
+Päivämäärä: {{ tieto[2] }}
 <br>
-Aktiivinen tällä kaudella: {{state}}
+Aika: {{ tieto[3] }}
 <br>
+Keikkapaikka: {{ tieto[4] }}
 <br>
-<a href="/edit_user">Muokkaa tietojasi</a>
-<br>
+{% endfor %}
+Keikan kokoonpano:
 
 {% endif %}
 </div>
 </body>
 </html>
+

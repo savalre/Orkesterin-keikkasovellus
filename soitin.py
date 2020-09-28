@@ -1,29 +1,23 @@
 from db import db
 import users
 
-#näitä käytetään keikka.lisääKokoonpano-metodissa
 
-def get_vasket():
-	sql = "SELECT soitin_id FROM soitin WHERE sektio='Vasket'"
-	result = db.session.execute(sql)
+def haePienryhmaSoittimet(kp):
+	sql = "SELECT nimi FROM soitin WHERE sektio=:kp"
+	result = db.session.execute(sql,{"kp":kp})
 	return result.fetchall()
 
-def get_jouset():
-    sql = "SELECT soitin_id FROM soitin WHERE sektio='Jouset'"
+def haePienryhmä_idt(kp):
+	sql = "SELECT soitin_id FROM soitin WHERE sektio=:kp"
+	return result.fetchall()
+
+def haeKokoOrkkaSoittimet():
+    sql = "SELECT soitin_id, nimi FROM soitin ORDER BY soitin_id"
     result = db.session.execute(sql)
     return result.fetchall()
 
-def get_puut(): 
-    sql = "SELECT soitin_id FROM soitin WHERE sektio='Puut'"
-    result = db.session.execute(sql)
-    return result.fetchall()
-
-def get_rytmi():
-    sql = "SELECT soitin_id FROM soitin WHERE sektio='Rytmiryhmä'"
-    result = db.session.execute(sql)
-    return result.fetchall()
-
-def get_soittimet():
-    sql = "SELECT soitin_id FROM soitin ORDER BY nimi"
-    result = db.session.execute(sql)
-    return result.fetchall()
+def haeKokoOrkkaId():
+	sql = "SELECT soitin_id FROM soitin"
+	result = db.session.execute(sql)
+	return result.fetchall()
+	

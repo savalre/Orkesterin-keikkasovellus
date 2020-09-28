@@ -1,4 +1,3 @@
-
 <! DOCTYPE html>
 <html>
 <head>
@@ -48,22 +47,31 @@ body {
 <body>
 <div class="indexBar">
         <a href="/">Etusivu</a>
-        <a href="/keikkasivu">Keikkasivu</a>
-        <a class="active" href="/userinfo">Oma profiilisi</a>
+        <a class="active" href="/keikkasivu">Keikkasivu</a>
+        <a href="/userinfo">Oma profiilisi</a>
         <a href="/logout">Kirjaudu ulos</a>
 </div>
 <br>
 <div class="backgroundGradient">
-Käyttäjätunnus: {{session.username}}
-<br>
-Soittimesi: {{instrument}}
-<br>
-Aktiivinen tällä kaudella: {{state}}
-<br>
-<br>
-<a href="/edit_user">Muokkaa tietojasi</a>
-<br>
+<form action="/ilmoDone" method="POST">
 
+<h3>Ilmoittautuminen keikalle</h3>
+<br>
+{% for t in tiedot %}
+<input type="hidden" name="id" value="{{ t[0] }}">
+<p> Olet ilmoittautumassa keikalle {{ t[1] }}.</p><br>
+<p> Tämän keikan kokoonpanoksi on ilmoitettu: {{ t[6] }}</p><br>
+{% endfor %}
+<br>
+Soittimesi:
+<br>
+{% for s in soittimet %}
+<input type="radio" name="soitin" value="{{s}}">{{ s }}
+{% endfor %}
+<br> 
+<input type="submit" value="Ilmoittaudu"> <br>
+<br>
+<a href="/keikkasivu">Peruuta</a>
 {% endif %}
 </div>
 </body>

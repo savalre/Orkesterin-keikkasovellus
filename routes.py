@@ -57,7 +57,7 @@ def edit_user():
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
 	uusitila = request.form["active"]
-	soitinvalinta = request.form["soitin"]
+	soitinvalinta = request.form.getlist("soitin")
 	print("sain tiedon:",uusitila, "ja soitinvalinta on: ", soitinvalinta)
 	users.muutatila(uusitila)
 	users.muutasoitin(soitinvalinta)
@@ -96,7 +96,7 @@ def deleteGig():
 def editGig():
 	id = request.args.get("sid")
 	list = keikka.haeTiedot(id)
-	print(list)
+	print(tieto)
 	return render_template("editGig.html",tiedot=list)
 
 @app.route("/gigEdited", methods=["post"])

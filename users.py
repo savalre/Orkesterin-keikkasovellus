@@ -50,7 +50,7 @@ def get_soitin():
 	id = user_id()
 	sql = "SELECT S.nimi FROM soitin S, soittajat So WHERE So.users_id=:user_id AND So.soitin_id = S.soitin_id"
 	result = db.session.execute(sql, {"user_id":id})
-	soitin = result.fetchone()[0] #tämä kaataa herokun. miksi ???? 
+	soitin = result.fetchall() 
 	print(soitin)
 	if soitin == None:
 		palautus = "Ei vielä valittu"
@@ -66,14 +66,13 @@ def muutatila(uusitila):
 	print("Uusi tila on:",uusitila)
 	db.session.commit()
 
-def muutasoitin(soitinvalinta): #update toimii keikka.muokkaaKeikka() hyvin, pitäisiköhän muuttaa tähän
+def muutasoitin(soitinvalinta): 
 	id = user_id()
 	sql = "DELETE FROM soittajat WHERE users_id=:user_id"
 	db.session.execute(sql, {"user_id":id})
-	sql = "SELECT soitin_id FROM soitin WHERE soitin_id=:soitinvalinta"
-	result = db.session.execute(sql, {"soitinvalinta":soitinvalinta})
-	print("olen lisäämässä tällaista kun: ", soitinvalinta)
-	sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id, :soitinvalinta)"
-	db.session.execute(sql, {"user_id":id,"soitinvalinta":soitinvalinta})
-	print("lisäsin soittajiin: ", soitinvalinta)
+	lista_length = len(soitinvalinta)
+	for s in range(lista_length):
+		sql = "INSERT INTO soittajat (users_id, soitin_id) VALUES (:user_id, :s)"
+		db.session.execute(sql, {"user_id":id,"s":soitinvalinta[s]})
+		print("tietokantaan lisätty soitin: ",s)
 	db.session.commit()

@@ -24,40 +24,12 @@
 
 <br>
 <div class="backgroundGradient">
-OMAT KEIKAT<br>
 <br>
-<h3>TULEVAT KEIKAT</h3>
-<table>
-	<thead>
-	<tr>
-		<th>Keikka</th>
-		<th>Päivämäärä</th>
-		<th>Aika</th>
-		<th>Paikka</th>
-		<th>Kuvaus</th>
-		<th>Kokoonpano</th>
-		<th></th>
-		<th></th>
-	</thead>
-	{% for keikka in keikat %}
-	<tr>
-		<td>{{ keikka[1] }}</td>
-		<td>{{ keikka[2] }}</td>
-		<td>{{ keikka[5] }}</td>
-		<td>{{ keikka[3] }}</td>
-		<td>{{ keikka[4] }}</td>
-		<td><a href="/kokoonpano?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
-		<td><a href="/ilmo?sid={{ keikka[0] }}">Ilmoittaudu keikalle</td>
-		<td><a href="/editGig?sid={{ keikka[0] }}">Muokkaa</td><!-- vain admin -->
-		<td><a href="/deleteGig?sid={{ keikka[0] }}">Poista</td><!-- vain admin -->  
-	</tr>
-	{% endfor %}
-</table>
+<h3> Keikkasivu</h3>
 <br>
-<a href="/newGig">Lisää keikka</a> <!-- Vain admin--> 
-<br>
-
+<p> Täällä voit tai sitten et voi.</p>
 {% endif %}
 </div>
 </body>
 </html>
+

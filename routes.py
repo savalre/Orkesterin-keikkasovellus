@@ -123,7 +123,7 @@ def ilmo():
 
 @app.route("/ilmoDone", methods=["post"])
 def ilmoDone():
-	soitin = request.form["soitin"] #tähän se kusee
+	soitin = request.form["soitin"]
 	keikkaId = request.form["id"]
 	print("tällasella menossa ilmoittautumaan: ", soitin)
 	userId = users.user_id()

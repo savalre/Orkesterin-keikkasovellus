@@ -1,3 +1,23 @@
+<! DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+{% if session.user_id %}
+<body>
+<div class="indexBar">
+        <a class="active" href="/">Etusivu</a>
+        <a href="/keikkasivu">Keikkasivu</a>
+        <a href="/userinfo">Oma profiilisi</a>
+        <a href="/logout">Kirjaudu ulos</a>
+</div>
+<div class="backgroundGradient">
+
+
 Virhe: {{ message }}
 <br>
 <a href="/"> Palaa etusivulle</a>
+{% endif %}
+</div>
+</body>
+</html>

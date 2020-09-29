@@ -1,44 +1,7 @@
 <! DOCTYPE html>
 <html>
 <head>
-<style>
-body {
-        margin: 0;
-        font-family: "Courier New", Courier, monospace;
-        height: 100%;
-}
-
-.backgroundGradient{
-        background: linear-gradient(to bottom, white, #FFC0CB);
-        color: black;
-        height: 100%;
-}
-
-.indexBar{
-        overflow: hidden;
-        background-color: #FF96CA;
-
-}
-
-.indexBar a{
-        float: left;
-        color: black;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-}
-
-.indexBar a:hover {
-        background-color: #FFC0CB;
-        color: black;
-}
-
-.indexBar a.active {
-        background-color: #FF69B4;
-        color: black;
-}
-</style>
+<link rel="stylesheet" href="/static/style.css">
 </head>
 
 <title>SOSSun keikkasovellus!</title>
@@ -66,10 +29,10 @@ body {
 Soittimesi:
 <br>
 {% for s in soittimet %}
-<input type="radio" name="soitin" value="{{s}}">{{ s }}
+<input type="radio" name="soitin" value="{{ s }}">{{ s }}
 {% endfor %}
 <br> 
-<input type="submit" value="Ilmoittaudu"> <br>
+<input type="submit" value="Ilmoittaudu"><br>
 <br>
 <a href="/keikkasivu">Peruuta</a>
 {% endif %}

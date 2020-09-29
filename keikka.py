@@ -38,7 +38,10 @@ def muokkaaKeikka(id, nimi,pvm,time,paikka,kuvaus,kokoonpano):
 
 def lisaaSoittaja(keikkaId,userId,soitin):
 	sql = "SELECT soitin_id FROM soitin WHERE nimi=:soitin"
-	soitinId = db.session.execute(sql,{"soitin":soitin})
+	result = db.session.execute(sql,{"soitin":soitin})
+	soitinId = result.fetchone()[0]
+	print("hainko id:n? HEI= ",soitinId)
 	sql = "INSERT INTO kokoonpano (keikka_id, users_id, soitin_id) VALUES (:keikkaId, :userId, :soitinId)"
 	db.session.execute(sql,{"keikkaId":keikkaId,"userId":userId,"soitinId":soitinId})
 	db.session.commit()
+

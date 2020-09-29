@@ -1,6 +1,26 @@
+<! DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
 <Title> SOSSun keikkasovellus!</title>
+
+{% if session.user_id %}
+<body>
+<div class="indexBar">
+        <a class="active" href="/">Etusivu</a>
+        <a href="/keikkasivu">Keikkasivu</a>
+        <a href="/userinfo">Oma profiilisi</a>
+        <a href="/logout">Kirjaudu ulos</a>
+</div>
+<div class="backgroundGradient">
 
 {{message}}
 <br>
 <br>
 <a href="/keikkasivu">Palaa keikkasivulle</a>
+{% endif %}
+</div>
+</body>
+</html>

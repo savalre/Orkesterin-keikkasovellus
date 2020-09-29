@@ -7,7 +7,7 @@ def haePienryhmaSoittimet(kp):
 	result = db.session.execute(sql,{"kp":kp})
 	return result.fetchall()
 
-def haePienryhmä_idt(kp):
+def haePienryhma_idt(kp):
 	sql = "SELECT soitin_id FROM soitin WHERE sektio=:kp"
 	return result.fetchall()
 

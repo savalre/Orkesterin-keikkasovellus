@@ -3,36 +3,6 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 import soitin
 
-def register(username,password):
-	hash_value = generate_password_hash(password)
-	try:
-		sql = "INSERT INTO users (username,password,active_status) VALUES (:username,:password, 'true')"
-		db.session.execute(sql, {"username":username,"password":hash_value,"active_status":'true'})
-		db.session.commit()
-	except:
-		return False
-	return login(username,password)
-
-def login(username,password):
-	sql = "SELECT password, users_id FROM users WHERE username=:username"
-	result = db.session.execute(sql, {"username":username})
-	user = result.fetchone()
-	if user == None:
-		return False
-	else:
-		hash_value = user[0]
-		if check_password_hash(hash_value,password):
-			session["user_id"] = user[1]
-			return True
-		else:
-			return False
-
-def logout():
-	del session["user_id"]
-
-def user_id():
-	return session.get("user_id",0)
-
 def active_state():
 	id = user_id()
 	sql = "SELECT active_status FROM users WHERE users_id=:user_id"
@@ -57,14 +27,25 @@ def get_soitin():
 		print(palautus)
 		return palautus
 	else:
-		return soitin
+		string_list = map(' '.join,soitin)
+		return string_list
 
-def muutatila(uusitila):
-	id = user_id()
-	sql = "UPDATE users SET active_status = :uusitila WHERE users_id = :user_id"
-	db.session.execute(sql, {"uusitila":uusitila,"user_id":id})
-	print("Uusi tila on:",uusitila)
-	db.session.commit()
+def login(username,password):
+	sql = "SELECT password, users_id FROM users WHERE username=:username"
+	result = db.session.execute(sql, {"username":username})
+	user = result.fetchone()
+	if user == None:
+		return False
+	else:
+		hash_value = user[0]
+		if check_password_hash(hash_value,password):
+			session["user_id"] = user[1]
+			return True
+		else:
+			return False
+
+def logout():
+	del session["user_id"]
 
 def muutasoitin(soitinvalinta): 
 	id = user_id()
@@ -76,3 +57,23 @@ def muutasoitin(soitinvalinta):
 		db.session.execute(sql, {"user_id":id,"s":soitinvalinta[s]})
 		print("tietokantaan lisätty soitin: ",s)
 	db.session.commit()
+
+def muutatila(uusitila):
+	id = user_id()
+	sql = "UPDATE users SET active_status = :uusitila WHERE users_id = :user_id"
+	db.session.execute(sql, {"uusitila":uusitila,"user_id":id})
+	print("Uusi tila on:",uusitila)
+	db.session.commit()
+		
+def user_id():
+	return session.get("user_id",0)
+
+def register(username,password):
+	hash_value = generate_password_hash(password)
+	try:
+		sql = "INSERT INTO users (username,password,active_status) VALUES (:username,:password, 'true')"
+		db.session.execute(sql, {"username":username,"password":hash_value,"active_status":'true'})
+		db.session.commit()
+	except:
+		return False
+	return login(username,password)

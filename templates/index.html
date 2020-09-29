@@ -7,12 +7,20 @@
 
 {% if session.user_id %}
 <body>
-<div class="indexBar">
-	<a class="active" href="/">Etusivu</a>
-	<a href="/keikkasivu">Keikkasivu</a>
-	<a href="/userinfo">Oma profiilisi</a>
-	<a href="/logout">Kirjaudu ulos</a>
-</div>
+<ul>
+	<li><a href="/">Etusivu</a></li>
+	<li class="dropdown">
+		<a href="/keikkasivu" class="dropbtn">Keikkasivu</a>
+		<div class="dropdown-content">
+		<a href="/omatKeikat">Omat keikat</a>
+		<a href="/tulevatKeikat">Tulevat keikat</a>
+		<a href="/newGig">Lisää keikka</a>
+		</div>
+	</li>
+	<li><a href="/userinfo">Oma profiilisi</a></li>
+	<li><a href="/logout">Kirjaudu ulos</a></li>
+</ul>
+
 <div class="backgroundGradient">
 <p>Tervetuloa {{session.username}}! Tässä sovelluksessa voit ilmoittautua orkesterin keikoille</p>
 </div>

@@ -7,12 +7,20 @@
 <title>SOSSun keikkasovellus!</title>
 
 <body>
-<div class="indexBar">
-        <a href="/">Etusivu</a>
-        <a href="/keikkasivu">Keikkasivu</a>
-        <a class="active" href="/userinfo">Oma profiilisi</a>
-        <a href="/logout">Kirjaudu ulos</a>
-</div>
+<ul>
+        <li><a href="/">Etusivu</a></li>
+        <li class="dropdown">
+                <a href="/keikkasivu" class="dropbtn">Keikkasivu</a>
+                <div class="dropdown-content">
+                <a href="/omatKeikat">Omat keikat</a>
+                <a href="/tulevatKeikat">Tulevat keikat</a>
+                <a href="/newGig">Lisää keikka</a>
+                </div>
+        </li>
+        <li><a href="/userinfo">Oma profiilisi</a></li>
+        <li><a href="/logout">Kirjaudu ulos</a></li>
+</ul>
+
 <div class="backgroundGradient">
 
 <h2>Muokkaa tietojasi</h2>

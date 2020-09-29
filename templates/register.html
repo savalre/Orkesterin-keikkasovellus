@@ -11,7 +11,7 @@
 <p>Täällä voit luoda uudet tunnukset. Käytä käyttäjätunnuksenasi orkesterinimeäsi, tai sen puuttuessa omaa etunimeäsi!</p>
 
 {% if session.user_id %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<p>Olet jo kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
 
 {% else %}

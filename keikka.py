@@ -13,17 +13,22 @@ def haeKeikkaId(nimi,pvm,time,paikka,kuvaus):
 	db.session.execute(sql, {"nimi":nimi,"pvm":pvm,"time":time,"paikka":paikka,"kuvaus":kuvaus})
 	result = db.session.commit()
 	return result.fetchone()[0]
-	
+
 def keikkaLista():
 	sql = "SELECT * FROM keikka"
 	result = db.session.execute(sql)
+	return result.fetchall()
+
+def omatKeikat(id):
+	sql = "SELECT K.keikka_id, K.nimi, K.pvm, K.aika, K.paikka, K.kuvaus, K.kokoonpano FROM keikka K, kokoonpano Ko WHERE ko.users_id=:id AND K.keikka_id = Ko.keikka_id"
+	result = db.session.execute(sql,{"id":id})
 	return result.fetchall()
 
 def poistaKeikka(id):
 	sql = "DELETE FROM keikka WHERE keikka_id=:id"
 	db.session.execute(sql,{"id":id})
 	db.session.commit()
-	
+
 def haeTiedot(id):
 	print("pääsin hakemaan keikan tietoja")
 	sql = "SELECT keikka_id, nimi, pvm, aika, paikka, kuvaus, kokoonpano FROM keikka WHERE keikka_id=:id"
@@ -45,3 +50,8 @@ def lisaaSoittaja(keikkaId,userId,soitin):
 	db.session.execute(sql,{"keikkaId":keikkaId,"userId":userId,"soitinId":soitinId})
 	db.session.commit()
 
+def poistaSoittaja(keikkaId,userId):
+	sql = "DELETE FROM kokoonpano WHERE keikka_id=:keikkaId AND users_id=:userId"
+	db.session.execute(sql,{"keikkaId":keikkaId,"userId":userId})
+	db.session.commit()
+	return True

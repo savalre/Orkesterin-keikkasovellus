@@ -67,7 +67,18 @@ def userUpdated():
 def keikkasivu():
 	lista = keikka.keikkaLista()
 	return render_template("keikka.html", keikat=lista)
-	
+
+@app.route("/tulevatKeikat")
+def tulevatKeikat():
+	lista = keikka.keikkaLista()
+	return render_template("tulevatKeikat.html", keikat=lista)
+
+@app.route("/omatKeikat")
+def omatKeikat():
+	id = users.user_id()
+	lista = keikka.omatKeikat(id)
+	return render_template("omatKeikat.html",keikat=lista)
+
 @app.route("/newGig")
 def uusi_keikka():
 	return render_template("addgig.html")
@@ -129,6 +140,13 @@ def ilmoDone():
 	userId = users.user_id()
 	keikka.lisaaSoittaja(keikkaId,userId,soitin)
 	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui!")
+
+@app.route("/del")
+def poistaIlmo():
+	keikkaId = request.args.get("sid")
+	userId = users.user_id()
+	keikka.poistaSoittaja(keikkaId,userId)
+	return render_template("gigUpdate.html", message= "Ilmoittautuminen onnistui! Tervetuloa keikalle!")
 	
 @app.route("/kokoonpano")
 def kokoonpano():

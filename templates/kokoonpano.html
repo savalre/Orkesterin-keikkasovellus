@@ -28,14 +28,21 @@
 
 <h3>{{ tieto[1] }}</h3>
 <br>
-Päivämäärä: {{ tieto[2] }}
+Päivämäärä: {{ tieto[2] }}<br>
 <br>
-Aika: {{ tieto[3] }}
+Aika: {{ tieto[3] }}<br>
 <br>
-Keikkapaikka: {{ tieto[4] }}
+Keikkapaikka: {{ tieto[4] }}<br>
 <br>
 {% endfor %}
-Keikan kokoonpano:
+Keikan kokoonpano:<br>
+<br>
+<dl>
+	{% for s in soitinNimet  %}
+	<dt>{{ s }}:</dt>
+	<br>
+	{% endfor %}
+</dl>
 
 {% endif %}
 </div>

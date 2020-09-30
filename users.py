@@ -46,7 +46,7 @@ def login(username,password):
 
 def logout():
 	del session["user_id"]
-
+	
 def muutasoitin(soitinvalinta): 
 	id = user_id()
 	sql = "DELETE FROM soittajat WHERE users_id=:user_id"

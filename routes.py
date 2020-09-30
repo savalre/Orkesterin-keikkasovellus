@@ -155,8 +155,12 @@ def kokoonpano():
 	if kp == "Koko_orkesteri":
 		kp_nimet = soitin.haeKokoOrkkaSoittimet()
 		kp_id = soitin.haeKokoOrkkaId()
+		keikkatiedot = keikka.haeTiedot(id)
+		kkpi = keikka.haeSoittajat(id)
+		return render_template("kokoonpano.html", soitinNimet = kp_nimet, soitinIdt = kp_id, kt = keikkatiedot, ilmonneet = kkpi)
 	else:
 		kp_nimet = soitin.haePienryhmaSoittimet(kp)
-		kp_id = soitin.haePienryhmä_idt(kp)
-	keikkatiedot = keikka.haeTiedot(id)
-	return render_template("kokoonpano.html", soitinNimet = kp_nimet, soitinIdt = kp_id, kt = keikkatiedot)
+		kp_id = soitin.haePienryhmaIdt(kp)
+		keikkatiedot = keikka.haeTiedot(id)
+		kkpi = keikka.haeSoittajat(id)
+		return render_template("kokoonpano.html", soitinNimet = kp_nimet, soitinIdt = kp_id, kt = keikkatiedot, ilmonneet = kkpi)

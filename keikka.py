@@ -55,3 +55,11 @@ def poistaSoittaja(keikkaId,userId):
 	db.session.execute(sql,{"keikkaId":keikkaId,"userId":userId})
 	db.session.commit()
 	return True
+
+def haeSoittajat(id):
+	sql = "SELECT username FROM users U, kokoonpano K WHERE K.keikka_id=:id AND U.users_id=K.users_id"
+	result = db.session.execute(sql,{"id":id})
+	soittajat = result.fetchall()
+	string_list = map(' '.join,soittajat)
+	return string_list
+	

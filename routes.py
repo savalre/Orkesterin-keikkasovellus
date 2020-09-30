@@ -107,7 +107,7 @@ def deleteGig():
 def editGig():
 	id = request.args.get("sid")
 	list = keikka.haeTiedot(id)
-	print(tieto)
+	print(list)
 	return render_template("editGig.html",tiedot=list)
 
 @app.route("/gigEdited", methods=["post"])

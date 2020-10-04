@@ -22,14 +22,14 @@ CREATE TABLE keikka(
 	nimi TEXT,
 	pvm  DATE,
 	paikka TEXT,
-	kuvaus TEXT
-	aika TIME
+	kuvaus TEXT,
+	aika TIME,
 	kokoonpano TEXT
 );
 
 CREATE TABLE kokoonpano(
 keikka_id INTEGER REFERENCES keikka(keikka_id) ON DELETE CASCADE,
-users_id INTEGER REFERENCES users(users_id),
-soitin_id INTEGER REFERENCES soitin(soitin_id),
+users_id INTEGER REFERENCES users(users_id) ON DELETE CASCADE,
+soitin_id INTEGER REFERENCES soitin(soitin_id) ON DELETE CASCADE,
 UNIQUE (keikka_id,users_id)
 );

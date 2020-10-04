@@ -28,7 +28,7 @@ CREATE TABLE keikka(
 );
 
 CREATE TABLE kokoonpano(
-keikka_id INTEGER REFERENCES keikka(keikka_id),
+keikka_id INTEGER REFERENCES keikka(keikka_id) ON DELETE CASCADE,
 users_id INTEGER REFERENCES users(users_id),
 soitin_id INTEGER REFERENCES soitin(soitin_id),
 UNIQUE (keikka_id,users_id)

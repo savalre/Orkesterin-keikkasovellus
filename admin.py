@@ -15,8 +15,7 @@ def listaaAdmin():
 	sql = "SELECT users_id, username FROM users WHERE role='admin'"
 	result = db.session.execute(sql)
 	adminit = result.fetchall()
-	return adminit
-	
+	return adminit	
 
 def lisaaAdmin(id):
 	sql = "UPDATE users SET rooli='admin' WHERE users_id=:id"

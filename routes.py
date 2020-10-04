@@ -150,14 +150,14 @@ def ilmoDone():
 	print("tällasella menossa ilmoittautumaan: ", soitin)
 	userId = users.user_id()
 	keikka.lisaaSoittaja(keikkaId,userId,soitin)
-	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui!")
+	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!")
 
 @app.route("/del")
 def poistaIlmo():
 	keikkaId = request.args.get("sid")
 	userId = users.user_id()
 	keikka.poistaSoittaja(keikkaId,userId)
-	return render_template("gigUpdate.html", message= "Ilmoittautuminen onnistui! Tervetuloa keikalle!")
+	return render_template("gigUpdate.html", message= "Poistit ilmoittautumisesi keikalle")
 
 @app.route("/kokoonpano") #tämä tulee toivottavasti käyttöön
 def kokoonpano():

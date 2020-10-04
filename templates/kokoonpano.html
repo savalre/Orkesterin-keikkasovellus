@@ -24,7 +24,7 @@
 </ul>
 <br>
 <div class="backgroundGradient">
-{% for tieto in kt %}
+{% for tieto in keikanTiedot %}
 
 <h3>{{ tieto[1] }}</h3>
 <br>
@@ -35,15 +35,16 @@ Aika: {{ tieto[3] }}<br>
 Keikkapaikka: {{ tieto[4] }}<br>
 <br>
 {% endfor %}
+<br>
 Keikan kokoonpano:<br>
 <br>
 <dl>
-	{% for s in soitinNimet  %}
-	<dt>{{ s }}:</dt>
-	<br>
-	{% endfor %}
-</dl>
-
+{% for k in range(0,keikanSoittimet|length,2): %}
+<dt>{{keikanSoittimet[k]}}:</dt>
+<dd>{{keikanSoittimet[k+1]}}</dd>	
+<br>
+{% endfor %}
+<br>
 {% endif %}
 </div>
 </body>

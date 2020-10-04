@@ -1,10 +1,21 @@
 from app import app
 from flask import render_template, request, redirect, session
-import users, db, soitin, keikka
+import users, db, soitin, keikka, admin
 
 @app.route("/")
 def index():
 	return render_template("index.html")
+
+@app.route("/admin")
+def admin():
+	paasy = False
+	id = users.user_id()
+	if admin.isAdmin(id):
+		paasy = True
+		admins = admin.listaaAdmin()
+		return render_template("admin.html", admins=admins)
+	else:
+		return render_template("error.html", message="sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
 
 @app.route("/login",methods=["get","post"])
 def login():
@@ -147,20 +158,32 @@ def poistaIlmo():
 	userId = users.user_id()
 	keikka.poistaSoittaja(keikkaId,userId)
 	return render_template("gigUpdate.html", message= "Ilmoittautuminen onnistui! Tervetuloa keikalle!")
-	
-@app.route("/kokoonpano")
+
+@app.route("/kokoonpano") #tämä tulee toivottavasti käyttöön
 def kokoonpano():
-	kp = request.args.get("skp")
-	id = request.args.get("sid")
-	if kp == "Koko_orkesteri":
-		kp_nimet = soitin.haeKokoOrkkaSoittimet()
-		kp_id = soitin.haeKokoOrkkaId()
-		keikkatiedot = keikka.haeTiedot(id)
-		kkpi = keikka.haeSoittajat(id)
-		return render_template("kokoonpano.html", soitinNimet = kp_nimet, soitinIdt = kp_id, kt = keikkatiedot, ilmonneet = kkpi)
-	else:
-		kp_nimet = soitin.haePienryhmaSoittimet(kp)
-		kp_id = soitin.haePienryhmaIdt(kp)
-		keikkatiedot = keikka.haeTiedot(id)
-		kkpi = keikka.haeSoittajat(id)
-		return render_template("kokoonpano.html", soitinNimet = kp_nimet, soitinIdt = kp_id, kt = keikkatiedot, ilmonneet = kkpi)
+	keikanKokoonpano = request.args.get("skp")
+	keikanId = request.args.get("sid")
+	keikanTiedot = keikka.haeTiedot(keikanId)
+	if keikanKokoonpano == "Koko_orkesteri":
+		keikanSoittimet = soitin.haeKaikkiSoittimet() # lista keikan soittimista
+		y = len(keikanSoittimet) * 2
+		for x in range(0,y,2):
+				soitinNimi = keikanSoittimet[x]
+				soitinX = soitinNimi[0]
+				soitinId = soitin.haeSoitinid(soitinX)
+				kp = keikka.haeSoittaja(keikanId, soitinId)
+				keikanSoittimet.insert(x+1, kp)
+				x = x+2
+		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)
+	else: 
+		keikanSoittimet = soitin.haePienryhmaSoittimet(keikanKokoonpano)
+		y = len(keikanSoittimet) * 2
+		for x in range(0,y,2):
+				soitinNimi = keikanSoittimet[x]
+				soitinX = soitinNimi[0]
+				soitinId = soitin.haeSoitinid(soitinX)
+				kp = keikka.haeSoittaja(keikanId, soitinId)
+				keikanSoittimet.insert(x+1, kp)
+				x = x+2
+		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)
+		

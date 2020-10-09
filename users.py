@@ -27,7 +27,7 @@ def get_soitin():
 		print(palautus)
 		return palautus
 	else:
-		string_list = map(' '.join,soitin)
+		string_list = map(','.join,soitin)
 		return string_list
 
 def login(username,password):
@@ -36,12 +36,16 @@ def login(username,password):
 	user = result.fetchone()
 	if user == None:
 		return False
+		print("käyttäjää ei löytynyt!")
 	else:
+		print("Käyttäjä löytyi!")
 		hash_value = user[0]
 		if check_password_hash(hash_value,password):
 			session["user_id"] = user[1]
+			print("salasana oikein!")
 			return True
 		else:
+			print("salasana väärin!")
 			return False
 
 def logout():

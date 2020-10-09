@@ -7,30 +7,52 @@ def index():
 	return render_template("index.html")
 
 @app.route("/admin")
-def admin():
+def adminsivu():
 	paasy = False
-	id = users.user_id()
-	if admin.isAdmin(id):
+	id = session.get("user_id",0)
+	if admin.haerooli(id):
 		paasy = True
 		admins = admin.listaaAdmin()
-		return render_template("admin.html", admins=admins)
+		kayttajat = admin.listaaKayttajat()
+		return render_template("admin.html", admins=admins, kayttajat=kayttajat)
 	else:
-		return render_template("error.html", message="sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
+		return render_template("error.html", message="Sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
 
-@app.route("/login",methods=["get","post"])
+@app.route("/addAdmin",methods=["get"])
+def addAdmin():
+	print("löysin tänne addAdminiin!")
+	id = request.args.get("sid")
+	admin.lisaaAdmin(id)
+	return render_template("adminUpdate.html", message="Adminoikeudet lisätty!") 
+	
+
+@app.route("/delAdmin",methods=["get"])
+def delAdmin():
+	id = request.args.get("sid")
+	admin.poistaAdmin(id)
+	return render_template("adminUpdate.html",message="Adminoikeudet poistettu!")
+
+@app.route("/login",methods=["get","post"]) 
 def login():
-	if request.method == "GET":
-		return render_template("/")
-	if request.method == "POST":
 		username = request.form["username"]
 		password = request.form["password"]
 		if users.login(username,password):
 			session["username"] = username
 			session["user_id"] = users.user_id()
+			id = users.user_id()
+			
+			if admin.haerooli(id) == True:
+				session["role"] = "admin"
+			else:
+				session["role"] = "peruskäyttäjä"
+				
 			session["active_state"] = users.active_state()[0]
+			rooli = session.get("role",0)
+			print("sessiorooli on: ", rooli)
 			return redirect("/")
-		else:
+		else:#hv miksi et hae tätä :/
 			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana :(")
+		
 
 @app.route("/logout", methods=["get"])
 def logout():

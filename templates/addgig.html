@@ -15,11 +15,16 @@
                 <div class="dropdown-content">
                 <a href="/omatKeikat">Omat keikat</a>
                 <a href="/tulevatKeikat">Tulevat keikat</a>
+		{% if session.role == 'admin' %}
                 <a href="/newGig">Lisää keikka</a>
+                {% endif %}
                 </div>
         </li>
         <li><a href="/userinfo">Oma profiilisi</a></li>
-        <li><a href="/logout">Kirjaudu ulos</a></li>
+        {% if session.role == 'admin' %}
+        <li><a href="/admin">Admin</a></li>
+        {% endif %}
+	<li><a href="/logout">Kirjaudu ulos</a></li>
 </ul>
 
 <br>
@@ -27,10 +32,10 @@
 
 <form action="/gigAdd" method="POST">
 
-<p>Keikan nimi:<br>
-<input type="text" name="nimi"></p>
+<p>Keikan nimi*:<br>
+<input type="text" name="nimi" required></p>
 <br>
-<p>Päivämäärä:<br>
+<p>Päivämäärä*:<br>
 <input type="date" name="pvm"></p>
 <br>
 <p>Kellonaika:<br>
@@ -42,11 +47,13 @@
 <p>Vapaamuotoinen kuvaus:<br>
 <input type="text" name="kuvaus"></p>
 <br>
-<p>Kokoonpano:<br>
+<p>Kokoonpano*:<br>
 <input type="radio" name="kokoonpano" value="Koko_orkesteri">Koko orkesteri
 <input type="radio" name="kokoonpano" value="Jouset">Jouset
 <input type="radio" name="kokoonpano" value="Puut">Puut
 <input type="radio" name="kokoonpano" value="Vasket">Vasket</p>
+<br>
+<p>*: pakollinen kenttä</p>
 <br>
 <input type="submit" value="Lisää uusi keikka">
 </form>

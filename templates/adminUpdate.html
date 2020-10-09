@@ -5,6 +5,7 @@
 </head>
 
 <Title> SOSSun keikkasovellus!</title>
+
 {% if session.user_id %}
 <body>
 <ul>
@@ -14,7 +15,7 @@
                 <div class="dropdown-content">
                 <a href="/omatKeikat">Omat keikat</a>
                 <a href="/tulevatKeikat">Tulevat keikat</a>
-		{% if session.role == 'admin' %}
+                {% if session.role == 'admin' %}
                 <a href="/newGig">Lisää keikka</a>
                 {% endif %}
                 </div>
@@ -31,7 +32,7 @@
 {{message}}
 <br>
 <br>
-<a href="/userinfo">Palaa profiiliisi!</a>
+<a href="/admin">Palaa admin-sivulle</a>
 {% endif %}
 </div>
 </body>

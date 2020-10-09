@@ -16,13 +16,14 @@
 
 {% else %}
 <form action="/register" method="POST">
-<p>Käyttäjätunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password1"></p>
-<p>Syötä salasana uudestaan:<br>
-<input type="password" name="password2"></p>
+<p>Käyttäjätunnus*:<br>
+<input type="text" name="username" required></p>
+<p>Salasana*:<br>
+<input type="password" name="password1" required></p>
+<p>Syötä salasana uudestaan*:<br>
+<input type="password" name="password2" required></p>
 <br>
+<p>*: pakollinen kenttä</p>
 <input type="submit" value="Rekisteröidy">
 </form>
 

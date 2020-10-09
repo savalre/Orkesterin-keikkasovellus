@@ -3,8 +3,6 @@
 <head>
 <link rel="stylesheet" href="/static/style.css">
 </head>
-
-<Title> SOSSun keikkasovellus!</title>
 {% if session.user_id %}
 <body>
 <ul>
@@ -27,12 +25,41 @@
 </ul>
 
 <div class="backgroundGradient">
-
-{{message}}
+<h3>Admin-oikeudelliset käyttäjät</h3>
 <br>
 <br>
-<a href="/userinfo">Palaa profiiliisi!</a>
+<table>
+        <thead>
+        <tr>
+                <th>Käyttäjä</th>
+		<th></th>
+        </thead>
+        {% for a in admins %}
+        <tr>
+                <td>{{ a[1] }}</td>
+                <td><a href="/delAdmin?sid={{ a[0] }}" onclick="return confirm('Tahdotko varmasti poistaa käyttäjän {{ a[1] }} adminoikeudet?');">Poista oikeudet</td>
+        </tr>
+        {% endfor %}
+</table>
+<br>
+<h3>Peruskäyttäjät</h3>
+<br>
+<br>
+<table>
+	<thead>
+	<tr>
+		<th>Käyttäjä</th>
+		<th></th>
+	</thead>
+	{% for k in kayttajat %}
+	<tr>
+		<th>{{ k[1] }}</td>
+		<td><a href="/addAdmin?sid={{ k[0] }}">Lisää adminoikeudet</td>
+	</tr>
+	{% endfor %}
+</table>
 {% endif %}
 </div>
 </body>
 </html>
+

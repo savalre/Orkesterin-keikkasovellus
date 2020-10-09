@@ -15,11 +15,16 @@
                 <div class="dropdown-content">
                 <a href="/omatKeikat">Omat keikat</a>
                 <a href="/tulevatKeikat">Tulevat keikat</a>
+		{% if session.role == 'admin' %}
                 <a href="/newGig">Lisää keikka</a>
+                {% endif %}
                 </div>
         </li>
         <li><a href="/userinfo">Oma profiilisi</a></li>
-        <li><a href="/logout">Kirjaudu ulos</a></li>
+        {% if session.role == 'admin' %}
+        <li><a href="/admin">Admin</a></li>
+        {% endif %}        
+	<li><a href="/logout">Kirjaudu ulos</a></li>
 </ul>
 
 <br>
@@ -30,6 +35,11 @@
 <p>Täällä voit ilmoittautua tuleville keikoille! </p><br>
 <p><a href="/omatKeikat">Omat keikat</a> -sivulla näet keikat, joille olet ilmoittautunut. Keikan kokooonpanoa klikkaamalla näet ketkä muut ovat ilmoittautuneet. Tätä kautta pääset myös poistamaan oman ilmoittautumisesi haluamaltasi keikalta.</p></br>
 <p><a href="/tulevatKeikat">Tulevat keikat</a> -sivulla näet keikat, joille et ole vielä ilmoittautunut. 
+{% if session.role == 'admin' %}
+<h3>Huomio admin!</h3><br>
+<p>Voit lisätä järjestelmään uuden keikan Keikkasivu-valikon painikkeesta "Lisää keikka".</p><br>
+<p>Tulevat keikat -sivulla voit poistaa keikan tai muokata sen tietoja.</p>
+{% endif %}
 {% endif %}
 </div>
 </body>

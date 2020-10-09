@@ -14,10 +14,15 @@
 		<div class="dropdown-content">
 		<a href="/omatKeikat">Omat keikat</a>
 		<a href="/tulevatKeikat">Tulevat keikat</a>
-		<a href="/newGig">Lisää keikka</a>
+		{% if session.role == 'admin' %}
+                <a href="/newGig">Lisää keikka</a>
+                {% endif %}
 		</div>
 	</li>
 	<li><a href="/userinfo">Oma profiilisi</a></li>
+        {% if session.role == 'admin' %}
+        <li><a href="/admin">Admin</a></li>
+        {% endif %}
 	<li><a href="/logout">Kirjaudu ulos</a></li>
 </ul>
 

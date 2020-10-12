@@ -6,6 +6,7 @@ def haePienryhmaSoittimet(kp):
 	sql = "SELECT nimi FROM soitin WHERE sektio=:kp"
 	result = db.session.execute(sql,{"kp":kp})
 	soittimet = result.fetchall()
+	soittimet = [s[0] for s in soittimet]
 	return soittimet
 
 def haePienryhmaIdt(kp):
@@ -17,6 +18,7 @@ def haeKaikkiSoittimet():
 	sql = "SELECT nimi FROM soitin ORDER BY soitin_id"
 	result = db.session.execute(sql)
 	soittimet = result.fetchall()
+	soittimet = [s[0] for s in soittimet]
 	return soittimet
 
 def haeKokoOrkkaId():

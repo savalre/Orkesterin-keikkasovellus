@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, session
-import users, db, soitin, keikka, admin
+import users, db, soitin, gig, admin
 
 @app.route("/")
 def index():
@@ -10,10 +10,10 @@ def index():
 def adminsivu():
 	paasy = False
 	id = session.get("user_id",0)
-	if admin.haerooli(id):
+	if admin.get_role(id):
 		paasy = True
-		admins = admin.listaaAdmin()
-		kayttajat = admin.listaaKayttajat()
+		admins = admin.admin_list()
+		kayttajat = admin.user_list()
 		return render_template("admin.html", admins=admins, kayttajat=kayttajat)
 	else:
 		return render_template("error.html", message="Sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
@@ -22,14 +22,14 @@ def adminsivu():
 def addAdmin():
 	print("löysin tänne addAdminiin!")
 	id = request.args.get("sid")
-	admin.lisaaAdmin(id)
+	admin.new_admin(id)
 	return render_template("adminUpdate.html", message="Adminoikeudet lisätty!") 
 	
 
 @app.route("/delAdmin",methods=["get"])
 def delAdmin():
 	id = request.args.get("sid")
-	admin.poistaAdmin(id)
+	admin.del_admin(id)
 	return render_template("adminUpdate.html",message="Adminoikeudet poistettu!")
 
 @app.route("/login",methods=["get","post"]) 
@@ -41,7 +41,7 @@ def login():
 			session["user_id"] = users.user_id()
 			id = users.user_id()
 			
-			if admin.haerooli(id) == True:
+			if admin.get_role(id) == True:
 				session["role"] = "admin"
 			else:
 				session["role"] = "peruskäyttäjä"
@@ -50,7 +50,7 @@ def login():
 			rooli = session.get("role",0)
 			print("sessiorooli on: ", rooli)
 			return redirect("/")
-		else:#hv miksi et hae tätä :/
+		else:
 			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana :(")
 		
 
@@ -98,18 +98,18 @@ def userUpdated():
 
 @app.route("/keikkasivu")
 def keikkasivu():
-	lista = keikka.keikkaLista()
+	lista = gig.gig_list()
 	return render_template("keikka.html", keikat=lista)
 
 @app.route("/tulevatKeikat")
 def tulevatKeikat():
-	lista = keikka.keikkaLista()
+	lista = gig.gig_list()
 	return render_template("tulevatKeikat.html", keikat=lista)
 
 @app.route("/omatKeikat")
-def omatKeikat():
+def my_gigs():
 	id = users.user_id()
-	lista = keikka.omatKeikat(id)
+	lista = gig.my_gigs(id)
 	return render_template("omatKeikat.html",keikat=lista)
 
 @app.route("/newGig")
@@ -125,7 +125,7 @@ def gigAdd():
 	kuvaus = request.form["kuvaus"]
 	kokoonpano = request.form["kokoonpano"]
 	print("Keikkaa lisätään seuraavilla tiedoilla: ", nimi, pvm, time, paikka, kuvaus, kokoonpano)
-	if keikka.lisaaKeikka(nimi,pvm,time,paikka,kuvaus,kokoonpano):
+	if gig.add_gig(nimi,pvm,time,paikka,kuvaus,kokoonpano):
 		return render_template("gigUpdate.html",message="Keikka lisätty onnistuneesti!")
 	else:
 		return render_template("error.html",message="Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!")
@@ -133,13 +133,13 @@ def gigAdd():
 @app.route("/deleteGig")
 def deleteGig():
 	id = request.args.get("sid")
-	keikka.poistaKeikka(id)
+	gig.poistaKeikka(id)
 	return render_template("gigUpdate.html",message="Keikka poistettu!")
 
 @app.route("/editGig")
 def editGig():
 	id = request.args.get("sid")
-	list = keikka.haeTiedot(id)
+	list = gig.haeTiedot(id)
 	print(list)
 	return render_template("editGig.html",tiedot=list)
 
@@ -152,7 +152,7 @@ def gigEdited():
 	paikka = request.form["paikka"]
 	kuvaus = request.form["kuvaus"]
 	kokoonpano = request.form["kokoonpano"]
-	if keikka.muokkaaKeikka(id,nimi,pvm,time,paikka,kuvaus,kokoonpano):
+	if gig.muokkaaKeikka(id,nimi,pvm,time,paikka,kuvaus,kokoonpano):
 		return render_template("gigUpdate.html",message="Keikan tiedot päivitetty!")
 	else:
 		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")
@@ -161,7 +161,7 @@ def gigEdited():
 def ilmo():
 	id = request.args.get("sid")
 	userId = users.user_id()
-	tiedot= keikka.haeTiedot(id)
+	tiedot= gig.haeTiedot(id)
 	soittimet = users.get_soitin()
 	return render_template("ilmo.html", tiedot=tiedot, soittimet=soittimet)
 
@@ -171,29 +171,30 @@ def ilmoDone():
 	keikkaId = request.form["id"]
 	print("tällasella menossa ilmoittautumaan: ", soitin)
 	userId = users.user_id()
-	keikka.lisaaSoittaja(keikkaId,userId,soitin)
+	gig.lisaaSoittaja(keikkaId,userId,soitin)
 	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!")
 
 @app.route("/del")
 def poistaIlmo():
 	keikkaId = request.args.get("sid")
 	userId = users.user_id()
-	keikka.poistaSoittaja(keikkaId,userId)
+	gig.poistaSoittaja(keikkaId,userId)
 	return render_template("gigUpdate.html", message= "Poistit ilmoittautumisesi keikalle")
 
-@app.route("/kokoonpano") #tämä tulee toivottavasti käyttöön
+@app.route("/kokoonpano")#tarkastuta tämä
 def kokoonpano():
 	keikanKokoonpano = request.args.get("skp")
 	keikanId = request.args.get("sid")
-	keikanTiedot = keikka.haeTiedot(keikanId)
+	keikanTiedot = gig.haeTiedot(keikanId)
 	if keikanKokoonpano == "Koko_orkesteri":
 		keikanSoittimet = soitin.haeKaikkiSoittimet() # lista keikan soittimista
+		print(keikanSoittimet)
 		y = len(keikanSoittimet) * 2
 		for x in range(0,y,2):
 				soitinNimi = keikanSoittimet[x]
-				soitinX = soitinNimi[0]
-				soitinId = soitin.haeSoitinid(soitinX)
-				kp = keikka.haeSoittaja(keikanId, soitinId)
+				#soitinX = soitinNimi[0]
+				soitinId = soitin.haeSoitinid(soitinNimi)
+				kp = gig.haeSoittaja(keikanId, soitinId)
 				keikanSoittimet.insert(x+1, kp)
 				x = x+2
 		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)
@@ -202,9 +203,9 @@ def kokoonpano():
 		y = len(keikanSoittimet) * 2
 		for x in range(0,y,2):
 				soitinNimi = keikanSoittimet[x]
-				soitinX = soitinNimi[0]
-				soitinId = soitin.haeSoitinid(soitinX)
-				kp = keikka.haeSoittaja(keikanId, soitinId)
+				#soitinX = soitinNimi[0]
+				soitinId = soitin.haeSoitinid(soitinNimi)
+				kp = gig.haeSoittaja(keikanId, soitinId)
 				keikanSoittimet.insert(x+1, kp)
 				x = x+2
 		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)

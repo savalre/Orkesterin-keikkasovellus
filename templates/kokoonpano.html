@@ -46,8 +46,13 @@ Keikan kokoonpano:<br>
 <dl>
 {% for k in range(0,keikanSoittimet|length,2): %}
 <dt>{{ keikanSoittimet[k] }}:</dt>
-<dd>{{ keikanSoittimet[k+1] }}</dd>	
+<dd><ul>
+{% for soittaja in keikanSoittimet[k+1]  %}
+<li>{{ soittaja }}</li>
+{% endfor %}
+</ul></dd>	
 <br>
+</dl>
 {% endfor %}
 <br>
 {% endif %}

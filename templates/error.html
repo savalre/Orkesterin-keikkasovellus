@@ -1,10 +1,10 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="/static/style.css">
 </head>
-{% if session.user_id %}
 <body>
+{% if session.user_id %}
 <ul>
         <li><a href="/">Etusivu</a></li>
         <li class="dropdown">
@@ -24,14 +24,13 @@
 
 	<li><a href="/logout">Kirjaudu ulos</a></li>
 </ul>
-
+{% endif %}
 <div class="backgroundGradient">
 
 
 Virhe: {{ message }}
 <br>
 <a href="/"> Palaa etusivulle</a>
-{% endif %}
 </div>
 </body>
 </html>

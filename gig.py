@@ -2,20 +2,14 @@ from db import db
 from flask import session
 import users
 
-def add_gig(nimi,pvm,time,paikka,kuvaus,kokoonpano):
-	sql = "INSERT INTO keikka (nimi,pvm,aika,paikka,kuvaus,kokoonpano) VALUES (:nimi,:pvm,:time,:paikka,:kuvaus,:kokoonpano) RETURNING keikka_id"
-	db.session.execute(sql, {"nimi":nimi,"pvm":pvm,"time":time,"paikka":paikka,"kuvaus":kuvaus,"kokoonpano":kokoonpano})
+def add_gig(name,date,time,place,descr,comp):
+	sql = "INSERT INTO keikka (nimi,pvm,aika,paikka,kuvaus,kokoonpano) VALUES (:name,:date,:time,:place,:descr,:comp) RETURNING keikka_id"
+	db.session.execute(sql, {"name":name,"date":date,"time":time,"place":place,"descr":descr,"comp":comp})
 	db.session.commit()
 	return True
 
-def haeKeikkaId(nimi,pvm,time,paikka,kuvaus):
-	sql = "SELECT keikka_id FROM keikka WHERE nimi=:nimi,pvm=:pvm,time=:time,paikka=:paikka,kuvaus=:kuvaus"
-	db.session.execute(sql, {"nimi":nimi,"pvm":pvm,"time":time,"paikka":paikka,"kuvaus":kuvaus})
-	result = db.session.commit()
-	return result.fetchone()[0]
-
 def gig_list():
-	sql = "SELECT * FROM keikka"
+	sql = "SELECT keikka_id, nimi, pvm, paikka, kuvaus, aika, kokoonpano FROM keikka"
 	result = db.session.execute(sql)
 	return result.fetchall()
 
@@ -24,43 +18,39 @@ def my_gigs(id):
 	result = db.session.execute(sql,{"id":id})
 	return result.fetchall()
 
-def poistaKeikka(id):
+def del_gig(id):
 	sql = "DELETE FROM keikka WHERE keikka_id=:id"
 	db.session.execute(sql,{"id":id})
 	db.session.commit()
 
-def haeTiedot(id):
-	print("pääsin hakemaan keikan tietoja")
+def gig_info(id):
 	sql = "SELECT keikka_id, nimi, pvm, aika, paikka, kuvaus, kokoonpano FROM keikka WHERE keikka_id=:id"
 	result = db.session.execute(sql,{"id":id})
 	return result.fetchall()
 
-def muokkaaKeikka(id, nimi,pvm,time,paikka,kuvaus,kokoonpano):
-	sql = "UPDATE keikka SET nimi = :nimi, pvm = :pvm, aika = :time, paikka = :paikka, kuvaus = :kuvaus, kokoonpano = :kokoonpano WHERE keikka_id=:id"
-	db.session.execute(sql, {"nimi":nimi,"pvm":pvm,"time":time,"paikka":paikka,"kuvaus":kuvaus,"kokoonpano":kokoonpano,"id":id})
+def edit_gig(id,name,date,time,place,descr,comp):
+	sql = "UPDATE keikka SET nimi = :name, pvm = :date, aika = :time, paikka = :place, kuvaus = :descr, kokoonpano = :comp WHERE keikka_id=:id"
+	db.session.execute(sql, {"nimi":name,"pvm":date,"time":time,"paikka":place,"kuvaus":descr,"kokoonpano":comp,"id":id})
 	db.session.commit()
 	return True
 
-def lisaaSoittaja(keikkaId,userId,soitin):
-	sql = "SELECT soitin_id FROM soitin WHERE nimi=:soitin"
-	result = db.session.execute(sql,{"soitin":soitin})
-	soitinId = result.fetchone()[0]
-	print("hainko id:n? HEI= ",soitinId)
-	sql = "INSERT INTO kokoonpano (keikka_id, users_id, soitin_id) VALUES (:keikkaId, :userId, :soitinId)"
-	db.session.execute(sql,{"keikkaId":keikkaId,"userId":userId,"soitinId":soitinId})
+def add_user(gig_id,user_id,instr):
+	sql = "SELECT soitin_id FROM soitin WHERE nimi=:instr"
+	result = db.session.execute(sql,{"instr":instr})
+	instr_id = result.fetchone()[0]
+	sql = "INSERT INTO kokoonpano (keikka_id, users_id, soitin_id) VALUES (:gig_id, :user_id, :instr_id)"
+	db.session.execute(sql,{"gig_id":gig_id,"user_id":user_id,"instr_id":instr_id})
 	db.session.commit()
 
-def poistaSoittaja(keikkaId,userId):
-	sql = "DELETE FROM kokoonpano WHERE keikka_id=:keikkaId AND users_id=:userId"
-	db.session.execute(sql,{"keikkaId":keikkaId,"userId":userId})
+def delete_user(gig_id,user_id):
+	sql = "DELETE FROM kokoonpano WHERE keikka_id=:gig_id AND users_id=:user_id"
+	db.session.execute(sql,{"gig_id":gig_id,"user_id":user_id})
 	db.session.commit()
 	return True
 
-
-def haeSoittaja(id, soitinId): 
-	sql = "SELECT username FROM users U, kokoonpano K WHERE K.keikka_id=:id AND U.users_id=K.users_id AND K.soitin_id =:soitinId"
-	result = db.session.execute(sql,{"id":id,"soitinId":soitinId})
-	soittajat = result.fetchall()
-	soittajat = [s[0] for s in soittajat]
-	return soittajat
-	
+def get_players(gig_id, instr_id): 
+	sql = "SELECT username FROM users U, kokoonpano K WHERE K.keikka_id=:gig_id AND U.users_id=K.users_id AND K.soitin_id =:instr_id"
+	result = db.session.execute(sql,{"gig_id":gig_id,"instr_id":instr_id})
+	players = result.fetchall()
+	players = [p[0] for p in players]
+	return players

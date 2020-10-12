@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, session
-import users, db, soitin, gig, admin
+import users, db, instrument, gig, admin
 
 @app.route("/")
 def index():
@@ -46,7 +46,7 @@ def login():
 			else:
 				session["role"] = "peruskäyttäjä"
 				
-			session["active_state"] = users.active_state()[0]
+			session["active_state"] = users.active_status()[0]
 			rooli = session.get("role",0)
 			print("sessiorooli on: ", rooli)
 			return redirect("/")
@@ -79,8 +79,8 @@ def register():
 		
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
-		soitin = users.get_soitin()
-		tila = users.active_state()
+		soitin = users.get_instrument()
+		tila = users.active_status()
 		return render_template("userinfo.html", instrument = soitin, state=tila)
 
 @app.route("/edit_user",methods=["get","post"])
@@ -89,11 +89,10 @@ def edit_user():
 	
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
-	uusitila = request.form["active"]
-	soitinvalinta = request.form.getlist("soitin")
-	print("sain tiedon:",uusitila, "ja soitinvalinta on: ", soitinvalinta)
-	users.muutatila(uusitila)
-	users.muutasoitin(soitinvalinta)
+	status = request.form["active"]
+	choice = request.form.getlist("soitin")
+	users.new_status(status)
+	users.change_instrument(choice)
 	return render_template("update.html", message="Profiilisi on päivitetty!")
 
 @app.route("/keikkasivu")
@@ -118,14 +117,13 @@ def uusi_keikka():
 
 @app.route("/gigAdd",methods=["post"])
 def gigAdd():
-	nimi = request.form["nimi"]
-	pvm = request.form["pvm"]
-	time = request.form["aika"]
-	paikka = request.form["paikka"]
-	kuvaus = request.form["kuvaus"]
-	kokoonpano = request.form["kokoonpano"]
-	print("Keikkaa lisätään seuraavilla tiedoilla: ", nimi, pvm, time, paikka, kuvaus, kokoonpano)
-	if gig.add_gig(nimi,pvm,time,paikka,kuvaus,kokoonpano):
+	name = request.form["name"]
+	date = request.form["date"]
+	time = request.form["time"]
+	place = request.form["place"]
+	descr = request.form["descr"]
+	comp = request.form["comp"]
+	if gig.add_gig(name,date,time,place,descr,comp):
 		return render_template("gigUpdate.html",message="Keikka lisätty onnistuneesti!")
 	else:
 		return render_template("error.html",message="Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!")
@@ -133,26 +131,26 @@ def gigAdd():
 @app.route("/deleteGig")
 def deleteGig():
 	id = request.args.get("sid")
-	gig.poistaKeikka(id)
+	gig.del_gig(id)
 	return render_template("gigUpdate.html",message="Keikka poistettu!")
 
 @app.route("/editGig")
 def editGig():
 	id = request.args.get("sid")
-	list = gig.haeTiedot(id)
+	list = gig.gig_info(id)
 	print(list)
 	return render_template("editGig.html",tiedot=list)
 
 @app.route("/gigEdited", methods=["post"])
 def gigEdited():
-	id = request.form["keikkaid"]
-	nimi = request.form["nimi"]
-	pvm = request.form["pvm"]
-	time = request.form["aika"]
-	paikka = request.form["paikka"]
-	kuvaus = request.form["kuvaus"]
-	kokoonpano = request.form["kokoonpano"]
-	if gig.muokkaaKeikka(id,nimi,pvm,time,paikka,kuvaus,kokoonpano):
+	id = request.form["id"]
+	name = request.form["name"]
+	date = request.form["date"]
+	time = request.form["time"]
+	place = request.form["place"]
+	descr = request.form["descr"]
+	comp = request.form["comp"]
+	if gig.edit_gig(id,name,date,time,place,descr,comp):
 		return render_template("gigUpdate.html",message="Keikan tiedot päivitetty!")
 	else:
 		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")
@@ -161,51 +159,48 @@ def gigEdited():
 def ilmo():
 	id = request.args.get("sid")
 	userId = users.user_id()
-	tiedot= gig.haeTiedot(id)
-	soittimet = users.get_soitin()
+	tiedot = gig.gig_info(id)
+	soittimet = users.get_instrument()
 	return render_template("ilmo.html", tiedot=tiedot, soittimet=soittimet)
 
 @app.route("/ilmoDone", methods=["post"])
 def ilmoDone():
-	soitin = request.form["soitin"]
-	keikkaId = request.form["id"]
-	print("tällasella menossa ilmoittautumaan: ", soitin)
-	userId = users.user_id()
-	gig.lisaaSoittaja(keikkaId,userId,soitin)
+	instr = request.form["soitin"]
+	gig_id = request.form["id"]
+	user_id = users.user_id()
+	gig.add_user(gig_id,user_id,instr)
 	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!")
 
 @app.route("/del")
 def poistaIlmo():
-	keikkaId = request.args.get("sid")
-	userId = users.user_id()
-	gig.poistaSoittaja(keikkaId,userId)
+	gig_id = request.args.get("sid")
+	user_id = users.user_id()
+	gig.delete_user(gig_id,user_id)
 	return render_template("gigUpdate.html", message= "Poistit ilmoittautumisesi keikalle")
 
-@app.route("/kokoonpano")#tarkastuta tämä
+@app.route("/kokoonpano")
 def kokoonpano():
-	keikanKokoonpano = request.args.get("skp")
-	keikanId = request.args.get("sid")
-	keikanTiedot = gig.haeTiedot(keikanId)
-	if keikanKokoonpano == "Koko_orkesteri":
-		keikanSoittimet = soitin.haeKaikkiSoittimet() # lista keikan soittimista
+	gig_comp = request.args.get("skp")
+	gig_id = request.args.get("sid")
+	keikanTiedot = gig.gig_info(gig_id)
+	if gig_comp == "Koko_orkesteri":
+		keikanSoittimet = instrument.get_instruments()
 		print(keikanSoittimet)
 		y = len(keikanSoittimet) * 2
 		for x in range(0,y,2):
-				soitinNimi = keikanSoittimet[x]
-				#soitinX = soitinNimi[0]
-				soitinId = soitin.haeSoitinid(soitinNimi)
-				kp = gig.haeSoittaja(keikanId, soitinId)
+				instrument = keikanSoittimet[x]
+				instr_id = instrument.get_instrument_id(instrument)
+				kp = gig.get_players(gig_id, instr_id)
 				keikanSoittimet.insert(x+1, kp)
 				x = x+2
 		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)
 	else: 
-		keikanSoittimet = soitin.haePienryhmaSoittimet(keikanKokoonpano)
+		keikanSoittimet = instrument.get_smallgroup_instruments(gig_comp)
 		y = len(keikanSoittimet) * 2
 		for x in range(0,y,2):
-				soitinNimi = keikanSoittimet[x]
-				#soitinX = soitinNimi[0]
-				soitinId = soitin.haeSoitinid(soitinNimi)
-				kp = gig.haeSoittaja(keikanId, soitinId)
+				instrument = keikanSoittimet[x]
+				instr_id = instrument.get_instrument_id(instrument)
+				kp = gig.get_players(gig_id, instr_id)
 				keikanSoittimet.insert(x+1, kp)
 				x = x+2
 		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)

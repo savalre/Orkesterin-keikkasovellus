@@ -43,17 +43,21 @@ Keikkapaikka: {{ tieto[4] }}<br>
 <br>
 Keikan kokoonpano:<br>
 <br>
+
 <dl>
 {% for k in range(0,keikanSoittimet|length,2): %}
-<dt>{{ keikanSoittimet[k] }}:</dt>
-<dd><ul>
-{% for soittaja in keikanSoittimet[k+1]  %}
-<li>{{ soittaja }}</li>
-{% endfor %}
-</ul></dd>	
+	<dt>{{ keikanSoittimet[k] }}:</dt>
+	<dd>
+	{% for soittaja in keikanSoittimet[k+1]  %}
+		<li>{{ soittaja }}</li>
+		<br>
+	{% endfor %}
+	</dd>	
 <br>
+
 </dl>
 {% endfor %}
+
 <br>
 {% endif %}
 </div>

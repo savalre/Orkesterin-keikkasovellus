@@ -20,4 +20,10 @@ def get_instrument_id(instrument):
 	sql = "SELECT soitin_id from soitin WHERE nimi=:instrument"
 	result = db.session.execute(sql,{"instrument":instrument})
 	return result.fetchone()[0]
+
+def get_name_and_id():
+	sql = "SELECT soitin_id, nimi from soitin"
+	result = db.session.execute(sql)
+	return result
+	
 	

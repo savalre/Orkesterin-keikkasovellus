@@ -51,10 +51,10 @@
 		<th>Käyttäjä</th>
 		<th></th>
 	</thead>
-	{% for k in kayttajat %}
+	{% for nu in normal_users %}
 	<tr>
-		<th>{{ k[1] }}</td>
-		<td><a href="/addAdmin?sid={{ k[0] }}">Lisää adminoikeudet</td>
+		<th>{{ nu[1] }}</td>
+		<td><a href="/addAdmin?sid={{ nu[0] }}">Lisää adminoikeudet</td>
 	</tr>
 	{% endfor %}
 </table>

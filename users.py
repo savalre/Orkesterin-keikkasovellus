@@ -31,7 +31,7 @@ def login(username,password):
 	result = db.session.execute(sql, {"username":username})
 	user = result.fetchone()
 	if user == None:
-		return False 
+		return False
 		#käyttäjää ei löydy -> username wrong
 	else: 
 	#käyttäjä löytyi

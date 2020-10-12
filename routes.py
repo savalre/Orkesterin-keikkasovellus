@@ -7,29 +7,27 @@ def index():
 	return render_template("index.html")
 
 @app.route("/admin")
-def adminsivu():
-	paasy = False
-	id = session.get("user_id",0)
-	if admin.get_role(id):
-		paasy = True
+def admin_page():
+	enter = False
+	users_id = session.get("user_id",0)
+	if admin.get_role(users_id):
+		enter = True
 		admins = admin.admin_list()
-		kayttajat = admin.user_list()
-		return render_template("admin.html", admins=admins, kayttajat=kayttajat)
+		normal_users = admin.user_list()
+		return render_template("admin.html", admins=admins, normal_users=normal_users)
 	else:
 		return render_template("error.html", message="Sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
 
 @app.route("/addAdmin",methods=["get"])
 def addAdmin():
-	print("löysin tänne addAdminiin!")
-	id = request.args.get("sid")
-	admin.new_admin(id)
+	users_id = request.args.get("sid")
+	admin.new_admin(users_id)
 	return render_template("adminUpdate.html", message="Adminoikeudet lisätty!") 
 	
-
 @app.route("/delAdmin",methods=["get"])
 def delAdmin():
-	id = request.args.get("sid")
-	admin.del_admin(id)
+	users_id = request.args.get("sid")
+	admin.del_admin(users_id)
 	return render_template("adminUpdate.html",message="Adminoikeudet poistettu!")
 
 @app.route("/login",methods=["get","post"]) 
@@ -39,20 +37,17 @@ def login():
 		if users.login(username,password):
 			session["username"] = username
 			session["user_id"] = users.user_id()
-			id = users.user_id()
+			users_id = users.user_id()
 			
-			if admin.get_role(id) == True:
+			if admin.get_role(users_id) == True:
 				session["role"] = "admin"
 			else:
 				session["role"] = "peruskäyttäjä"
 				
 			session["active_state"] = users.active_status()[0]
-			rooli = session.get("role",0)
-			print("sessiorooli on: ", rooli)
 			return redirect("/")
 		else:
-			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana :(")
-		
+			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana")
 
 @app.route("/logout", methods=["get"])
 def logout():
@@ -79,13 +74,14 @@ def register():
 		
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
-		soitin = users.get_instrument()
-		tila = users.active_status()
-		return render_template("userinfo.html", instrument = soitin, state=tila)
+		instr = users.get_instrument()
+		status = users.active_status()
+		return render_template("userinfo.html", instr = instr, status=status)
 
 @app.route("/edit_user",methods=["get","post"])
 def edit_user():
-	return render_template("edit_user.html")
+	instr = instrument.get_name_and_id()
+	return render_template("edit_user.html", instr=instr)
 	
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
@@ -138,7 +134,6 @@ def deleteGig():
 def editGig():
 	id = request.args.get("sid")
 	list = gig.gig_info(id)
-	print(list)
 	return render_template("editGig.html",tiedot=list)
 
 @app.route("/gigEdited", methods=["post"])
@@ -185,11 +180,10 @@ def kokoonpano():
 	keikanTiedot = gig.gig_info(gig_id)
 	if gig_comp == "Koko_orkesteri":
 		keikanSoittimet = instrument.get_instruments()
-		print(keikanSoittimet)
 		y = len(keikanSoittimet) * 2
 		for x in range(0,y,2):
-				instrument = keikanSoittimet[x]
-				instr_id = instrument.get_instrument_id(instrument)
+				instr = keikanSoittimet[x]
+				instr_id = instrument.get_instrument_id(instr)
 				kp = gig.get_players(gig_id, instr_id)
 				keikanSoittimet.insert(x+1, kp)
 				x = x+2
@@ -198,8 +192,8 @@ def kokoonpano():
 		keikanSoittimet = instrument.get_smallgroup_instruments(gig_comp)
 		y = len(keikanSoittimet) * 2
 		for x in range(0,y,2):
-				instrument = keikanSoittimet[x]
-				instr_id = instrument.get_instrument_id(instrument)
+				instr = keikanSoittimet[x]
+				instr_id = instrument.get_instrument_id(instr)
 				kp = gig.get_players(gig_id, instr_id)
 				keikanSoittimet.insert(x+1, kp)
 				x = x+2

@@ -32,12 +32,10 @@
 Käyttäjätunnus: {{session.username}}
 <br>
 Soittimesi: 
-{% for i in instrument %}
-{{ i }}
-{% endfor %}
+{{ instr |join(", ") }}
 
 <br>
-Aktiivinen tällä kaudella: {{state}}
+Aktiivinen tällä kaudella: {{status}}
 <br>
 <br>
 <a href="/edit_user">Muokkaa tietojasi</a>

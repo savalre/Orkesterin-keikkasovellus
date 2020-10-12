@@ -38,20 +38,9 @@ Käyttäjätunnus: {{session.username}}
 
 <p>Soittimesi:</p>
 <br>
-<input type="checkbox" name="soitin" value="1">Viulu 1 
-<input type="checkbox" name="soitin" value="2">Viulu 2
-<input type="checkbox" name="soitin" value="3">Alttoviulu
-<input type="checkbox" name="soitin" value="4">Sello
-<input type="checkbox" name="soitin" value="5">Huilu
-<input type="checkbox" name="soitin" value="6">Klarinetti
-<input type="checkbox" name="soitin" value="7">Alttosaxofoni
-<input type="checkbox" name="soitin" value="8">Tenorisaxofoni
-<input type="checkbox" name="soitin" value="9">Trumpetti
-<input type="checkbox" name="soitin" value="10">Käyrätorvi
-<input type="checkbox" name="soitin" value="11">Pasuuna
-<input type="checkbox" name="soitin" value="12">Bassopasuuna
-<input type="checkbox" name="soitin" value="13">Rummut
-<input type="checkbox" name="soitin" value="14">Basso
+{% for i in instr %}
+<input type="checkbox" name="soitin" value="{{ i[0] }}">{{ i[1] }}<br>
+{% endfor %}
 <br>
 <br>
 Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
@@ -60,6 +49,10 @@ Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
 <input type="radio" name="active" value="True">Kyllä
 <input type="radio" name="active" value="False">Ei
 <p>
+<br>
+<b>Huom!</b> 
+<p> Jos olet jo ilmoittautunut keikalle soittimella jota et enää soita, ei ilmoittautumisesi poistu vaikka poistaisitkin soittimen tiedoistasi!</p>
+<p>Muistathan siis perua mahdolliset turhat ilmoittautumiset Omat keikat -osiosta!</p> 
 <input type="submit" value="Lähetä">
 <br>
 </form>

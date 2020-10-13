@@ -51,7 +51,7 @@
                 <td>{{ keikka[3] }}</td>
                 <td>{{ keikka[4] }}</td>
 		<td><a href="/kokoonpano?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
-                <td><a href="/ilmo?sid={{ keikka[0] }}">Ilmoittaudu keikalle</td>
+                <td><a href="/gigReg?sid={{ keikka[0] }}">Ilmoittaudu keikalle</td>
        		 {% if session.role == 'admin' %}              
 		<td><a href="/editGig?sid={{ keikka[0] }}">Muokkaa</td><!-- vain admin -->
                 <td><a href="/deleteGig?sid={{ keikka[0] }}" onclick="return confirm('Tahdotko varmasti poistaa keikan {{ keikka[1] }}?');">Poista</td><!-- vain admin -->

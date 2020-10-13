@@ -33,16 +33,16 @@
 
 <h3>Ilmoittautuminen keikalle</h3>
 <br>
-{% for t in tiedot %}
-<input type="hidden" name="id" value="{{ t[0] }}">
-<p> Olet ilmoittautumassa keikalle {{ t[1] }}.</p><br>
-<p> Tämän keikan kokoonpanoksi on ilmoitettu: {{ t[6] }}</p><br>
+{% for i in info %}
+<input type="hidden" name="id" value="{{ i[0] }}">
+<p> Olet ilmoittautumassa keikalle {{ i[1] }}.</p><br>
+<p> Tämän keikan kokoonpanoksi on ilmoitettu: {{ i[6] }}</p><br>
 {% endfor %}
 <br>
 Soittimesi:
 <br>
-{% for s in soittimet %}
-<input type="radio" name="soitin" value="{{ s }}">{{ s }}
+{% for i in instruments %}
+<input type="radio" name="instr" value="{{ i }}">{{ i }}
 {% endfor %}
 <br> 
 <input type="submit" value="Ilmoittaudu"><br>

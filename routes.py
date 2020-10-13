@@ -42,7 +42,7 @@ def login():
 			if admin.get_role(users_id) == True:
 				session["role"] = "admin"
 			else:
-				session["role"] = "peruskäyttäjä"
+				session["role"] = "normal_user"
 				
 			session["active_state"] = users.active_status()[0]
 			return redirect("/")
@@ -108,7 +108,7 @@ def my_gigs():
 	return render_template("omatKeikat.html",keikat=lista)
 
 @app.route("/newGig")
-def uusi_keikka():
+def new_gig():
 	return render_template("addgig.html")
 
 @app.route("/gigAdd",methods=["post"])
@@ -150,17 +150,17 @@ def gigEdited():
 	else:
 		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")
 		
-@app.route("/ilmo")
-def ilmo():
+@app.route("/gigReg")
+def gig_registration():
 	id = request.args.get("sid")
 	userId = users.user_id()
-	tiedot = gig.gig_info(id)
-	soittimet = users.get_instrument()
-	return render_template("ilmo.html", tiedot=tiedot, soittimet=soittimet)
+	info = gig.gig_info(id)
+	instruments = users.get_instrument()
+	return render_template("gigReg.html", info=info, instruments=instruments)
 
 @app.route("/ilmoDone", methods=["post"])
 def ilmoDone():
-	instr = request.form["soitin"]
+	instr = request.form["instr"]
 	gig_id = request.form["id"]
 	user_id = users.user_id()
 	gig.add_user(gig_id,user_id,instr)

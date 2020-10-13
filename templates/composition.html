@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% if session.user_id %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block content %}
+{{ super() }}
+
+<div class="backgroundGradient">
+{% for i in info %}
+
+<h3>{{ i[1] }}</h3>
+<br>
+Päivämäärä: {{ i[2] }}<br>
+<br>
+Aika: {{ i[3] }}<br>
+<br>
+Keikkapaikka: {{ i[4] }}<br>
+<br>
+{% endfor %}
+<br>
+Keikan kokoonpano:<br>
+<br>
+
+<dl>
+{% for g in range(0,gig_instr|length,2): %}
+	<dt>{{ gig_instr[g] }}:</dt>
+	<dd>
+	{% for player in gig_instr[g+1]  %}
+		<li>{{ player }}</li>
+		<br>
+	{% endfor %}
+	</dd>	
+<br>
+
+</dl>
+{% endfor %}
+
+<br>
+
+</div>
+{% endblock %}
+
+{% endif %}
+

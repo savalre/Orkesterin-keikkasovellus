@@ -1,33 +1,11 @@
-
-<! DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="/static/style.css">
-</head>
-
-<title>SOSSun keikkasovellus!</title>
+{% extends "layout.html" %}
 
 {% if session.user_id %}
-<body>
-<ul>
-        <li><a href="/">Etusivu</a></li>
-        <li class="dropdown">
-                <a href="/keikkasivu" class="dropbtn">Keikkasivu</a>
-                <div class="dropdown-content">
-                <a href="/omatKeikat">Omat keikat</a>
-                <a href="/tulevatKeikat">Tulevat keikat</a>
-		{% if session.role == 'admin' %}
-                <a href="/newGig">Lisää keikka</a>
-                {% endif %}
-                </div>
-        </li>
-        <li><a href="/userinfo">Oma profiilisi</a></li>
-        {% if session.role == 'admin' %}
-        <li><a href="/admin">Admin</a></li>
-        {% endif %}
-        <li><a href="/logout">Kirjaudu ulos</a></li>
-</ul>
-<br>
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block content %}
+{{ super() }}
 <div class="backgroundGradient">
 Käyttäjätunnus: {{session.username}}
 <br>
@@ -41,7 +19,7 @@ Aktiivinen tällä kaudella: {{status}}
 <a href="/edit_user">Muokkaa tietojasi</a>
 <br>
 
-{% endif %}
 </div>
-</body>
-</html>
+{% endblock %}
+
+{% endif %}

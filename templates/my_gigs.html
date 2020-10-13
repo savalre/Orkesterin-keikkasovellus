@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% if session.user_id %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block content %}
+{{ super() }}
+<div class="backgroundGradient">
+<h3>OMAT KEIKAT</h3>
+<table>
+        <thead>
+        <tr>
+                <th>Keikka</th>
+                <th>Päivämäärä</th>
+                <th>Aika</th>
+                <th>Paikka</th>
+                <th>Kuvaus</th>
+                <th>Kokoonpano</th>
+                <th></th>
+                <th></th>
+        </thead>
+        {% for keikka in keikat %}
+        <tr>
+                <td>{{ keikka[1] }}</td>
+                <td>{{ keikka[2] }}</td>
+                <td>{{ keikka[5] }}</td>
+                <td>{{ keikka[3] }}</td>
+                <td>{{ keikka[4] }}</td>
+                <td><a href="/composition?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
+                <td><a href="/del?sid={{ keikka[0] }}">Poista ilmottautumisesi</td>
+        </tr>
+        {% endfor %}
+</table>
+<br>
+
+</div>
+{% endblock %}
+
+{% endif %}

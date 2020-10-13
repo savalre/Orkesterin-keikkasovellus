@@ -1,36 +1,14 @@
-<! DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="/static/style.css">
-</head>
 
-<title>SOSSun keikkasovellus!</title>
-
-<h2>Muokkaa keikan tietoja</h2>
+{% extends "layout.html" %}
 
 {% if session.user_id %}
-<body>
-<ul>
-        <li><a href="/">Etusivu</a></li>
-        <li class="dropdown">
-                <a href="/keikkasivu" class="dropbtn">Keikkasivu</a>
-                <div class="dropdown-content">
-                <a href="/omatKeikat">Omat keikat</a>
-                <a href="/tulevatKeikat">Tulevat keikat</a>
-		{% if session.role == 'admin' %}
-                <a href="/newGig">Lisää keikka</a>
-                {% endif %}
-                </div>
-        </li>
-        <li><a href="/userinfo">Oma profiilisi</a></li>
-        {% if session.role == 'admin' %}
-        <li><a href="/admin">Admin</a></li>
-        {% endif %}
-        <li><a href="/logout">Kirjaudu ulos</a></li>
-</ul>
 
-<br>
+{% block head %}{{ super() }}{% endblock %}
+
+{% block content %}
+{{ super() }}
 <div class="backgroundGradient">
+<h2>Muokkaa keikan tietoja</h2>
 
 <form action="/gigEdited" method="POST">
 {% for tieto in tiedot %}
@@ -61,9 +39,9 @@
 </form>
 
 <br>
-<a href="/keikkasivu">Peruuta</a>
-{% endif %}
+<a href="/gig_index">Peruuta</a>
 </div>
-</body>
-</html>
+{% endblock %}
+
+{% endif %}
 

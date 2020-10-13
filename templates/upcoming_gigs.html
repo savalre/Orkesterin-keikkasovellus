@@ -1,33 +1,12 @@
-<! DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="/static/style.css">
-</head>
-
-<title>SOSSun keikkasovellus!</title>
+{% extends "layout.html" %}
 
 {% if session.user_id %}
-<body>
-<ul>
-        <li><a href="/">Etusivu</a></li>
-        <li class="dropdown">
-                <a href="/keikkasivu" class="dropbtn">Keikkasivu</a>
-                <div class="dropdown-content">
-                <a href="/omatKeikat">Omat keikat</a>
-                <a href="/tulevatKeikat">Tulevat keikat</a>
-		{% if session.role == 'admin' %}
-                <a href="/newGig">Lisää keikka</a>
-                {% endif %}
-                </div>
-        </li>
-        <li><a href="/userinfo">Oma profiilisi</a></li>
-        {% if session.role == 'admin' %}
-        <li><a href="/admin">Admin</a></li>
-        {% endif %}
-        <li><a href="/logout">Kirjaudu ulos</a></li>
-</ul>
 
-<br>
+{% block head %}{{ super() }}{% endblock %}
+
+{% block content %}
+{{ super() }}
+
 <div class="backgroundGradient">
 
 <h3>TULEVAT KEIKAT</h3>
@@ -50,7 +29,7 @@
                 <td>{{ keikka[5] }}</td>
                 <td>{{ keikka[3] }}</td>
                 <td>{{ keikka[4] }}</td>
-		<td><a href="/kokoonpano?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
+		<td><a href="/composition?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
                 <td><a href="/gigReg?sid={{ keikka[0] }}">Ilmoittaudu keikalle</td>
        		 {% if session.role == 'admin' %}              
 		<td><a href="/editGig?sid={{ keikka[0] }}">Muokkaa</td><!-- vain admin -->
@@ -61,8 +40,7 @@
 </table>
 <br>
 <br>
+</div>
+{% endblock %}
 
 {% endif %}
-</div>
-</body>
-</html>

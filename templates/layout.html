@@ -1,0 +1,33 @@
+<! DOCTYPE html>
+<html>
+	<head>
+	{% block head %}
+	<link rel="stylesheet" href="/static/style.css">
+	<title>SOSSun keikkasovellus</title>
+	{% endblock %}
+	</head>
+	
+	<body>
+	<ul>
+	<li><a href="/">Etusivu</a></li>
+	<li class="dropdown">
+		<a href="/gig_index" class="dropbtn">Keikkasivu</a>
+		<div class="dropdown-content">
+		<a href="/my_gigs">Omat keikat</a>
+		<a href="/upcoming_gigs">Tulevat keikat</a>
+		{% if session.role == 'admin' %}
+                <a href="/newGig">Lisää keikka</a>
+                {% endif %}
+		</div>
+	</li>
+	<li><a href="/userinfo">Oma profiilisi</a></li>
+        {% if session.role == 'admin' %}
+        <li><a href="/admin">Admin</a></li>
+        {% endif %}
+	<li><a href="/logout">Kirjaudu ulos</a></li>
+</ul>
+<br>
+<div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>
+

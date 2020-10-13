@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, session
+from flask import flash, render_template, request, redirect, session
 import users, db, instrument, gig, admin
 
 @app.route("/")
@@ -32,6 +32,7 @@ def delAdmin():
 
 @app.route("/login",methods=["get","post"]) 
 def login():
+		error = None;
 		username = request.form["username"]
 		password = request.form["password"]
 		if users.login(username,password):
@@ -47,7 +48,8 @@ def login():
 			session["active_state"] = users.active_status()[0]
 			return redirect("/")
 		else:
-			return render_template("error.html",message="Väärä käyttäjätunnus tai salasana")
+			error = "Väärä käyttäjätunnus tai salasana!"
+			return render_template("index.html",error=error)
 
 @app.route("/logout", methods=["get"])
 def logout():
@@ -91,21 +93,21 @@ def userUpdated():
 	users.change_instrument(choice)
 	return render_template("update.html", message="Profiilisi on päivitetty!")
 
-@app.route("/keikkasivu")
-def keikkasivu():
+@app.route("/gig_index")
+def gig_index():
 	lista = gig.gig_list()
-	return render_template("keikka.html", keikat=lista)
+	return render_template("gig_index.html", keikat=lista)
 
-@app.route("/tulevatKeikat")
-def tulevatKeikat():
+@app.route("/upcoming_gigs")
+def upcoming_gigs():
 	lista = gig.gig_list()
-	return render_template("tulevatKeikat.html", keikat=lista)
+	return render_template("upcoming_gigs.html", keikat=lista)
 
-@app.route("/omatKeikat")
+@app.route("/my_gigs")
 def my_gigs():
 	id = users.user_id()
 	lista = gig.my_gigs(id)
-	return render_template("omatKeikat.html",keikat=lista)
+	return render_template("my_gigs.html",keikat=lista)
 
 @app.route("/newGig")
 def new_gig():
@@ -158,8 +160,8 @@ def gig_registration():
 	instruments = users.get_instrument()
 	return render_template("gigReg.html", info=info, instruments=instruments)
 
-@app.route("/ilmoDone", methods=["post"])
-def ilmoDone():
+@app.route("/reg_complete", methods=["post"])
+def reg_complete():
 	instr = request.form["instr"]
 	gig_id = request.form["id"]
 	user_id = users.user_id()
@@ -173,29 +175,29 @@ def poistaIlmo():
 	gig.delete_user(gig_id,user_id)
 	return render_template("gigUpdate.html", message= "Poistit ilmoittautumisesi keikalle")
 
-@app.route("/kokoonpano")
-def kokoonpano():
+@app.route("/composition")
+def gig_composition():
 	gig_comp = request.args.get("skp")
 	gig_id = request.args.get("sid")
-	keikanTiedot = gig.gig_info(gig_id)
+	info = gig.gig_info(gig_id)
 	if gig_comp == "Koko_orkesteri":
-		keikanSoittimet = instrument.get_instruments()
-		y = len(keikanSoittimet) * 2
+		gig_instr = instrument.get_instruments()
+		y = len(gig_instr) * 2
 		for x in range(0,y,2):
-				instr = keikanSoittimet[x]
+				instr = gig_instr[x]
 				instr_id = instrument.get_instrument_id(instr)
 				kp = gig.get_players(gig_id, instr_id)
-				keikanSoittimet.insert(x+1, kp)
+				gig_instr.insert(x+1, kp)
 				x = x+2
-		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)
+		return render_template("composition.html", gig_instr = gig_instr, info = info)
 	else: 
-		keikanSoittimet = instrument.get_smallgroup_instruments(gig_comp)
-		y = len(keikanSoittimet) * 2
+		gig_instr = instrument.get_smallgroup_instruments(gig_comp)
+		y = len(gig_instr) * 2
 		for x in range(0,y,2):
-				instr = keikanSoittimet[x]
+				instr = gig_instr[x]
 				instr_id = instrument.get_instrument_id(instr)
 				kp = gig.get_players(gig_id, instr_id)
-				keikanSoittimet.insert(x+1, kp)
+				gig_instr.insert(x+1, kp)
 				x = x+2
-		return render_template("kokoonpano.html", keikanSoittimet = keikanSoittimet, keikanTiedot = keikanTiedot)
+		return render_template("composition.html", gig_instr = gig_instr, info = info)
 		

@@ -2,6 +2,8 @@ from app import app
 from flask import flash, render_template, request, redirect, session
 import users, db, instrument, gig, admin
 
+#login, logout, registration and admin routes
+
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -73,6 +75,8 @@ def register():
 				return render_template("error.html",message="Hups, rekisteröinti ei onnistunut!")
 		else: 
 			return render_template("error.html",message="Salasanat eivät ole samat! Kokeile uudestaan")
+
+#user-related routes
 		
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
@@ -93,21 +97,22 @@ def userUpdated():
 	users.change_instrument(choice)
 	return render_template("update.html", message="Profiilisi on päivitetty!")
 
+#gig-related routes
+
 @app.route("/gig_index")
 def gig_index():
-	lista = gig.gig_list()
-	return render_template("gig_index.html", keikat=lista)
+	return render_template("gig_index.html")
 
 @app.route("/upcoming_gigs")
 def upcoming_gigs():
-	lista = gig.gig_list()
-	return render_template("upcoming_gigs.html", keikat=lista)
+	gig_list = gig.gig_list()
+	return render_template("upcoming_gigs.html", gig_list=gig_list)
 
 @app.route("/my_gigs")
 def my_gigs():
 	id = users.user_id()
-	lista = gig.my_gigs(id)
-	return render_template("my_gigs.html",keikat=lista)
+	gig_list = gig.my_gigs(id)
+	return render_template("my_gigs.html",gig_list=gig_list)
 
 @app.route("/newGig")
 def new_gig():
@@ -115,22 +120,31 @@ def new_gig():
 
 @app.route("/gigAdd",methods=["post"])
 def gigAdd():
+	message = None;
 	name = request.form["name"]
 	date = request.form["date"]
 	time = request.form["time"]
 	place = request.form["place"]
 	descr = request.form["descr"]
 	comp = request.form["comp"]
+	if comp == "Koko_orkesteri":
+		comp = "Koko orkesteri"
 	if gig.add_gig(name,date,time,place,descr,comp):
-		return render_template("gigUpdate.html",message="Keikka lisätty onnistuneesti!")
+		message = "Keikka lisätty onnistuneesti!"
+		gig_list = gig.gig_list()
+		return render_template("upcoming_gigs.html", message=message, gig_list=gig_list) 
 	else:
-		return render_template("error.html",message="Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!")
+		message = "Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!"
+		gig_list = gig.gig_list()
+		return render_template("upcoming_gigs.html",message=message, gig_list=gig_list)
 
 @app.route("/deleteGig")
 def deleteGig():
 	id = request.args.get("sid")
 	gig.del_gig(id)
-	return render_template("gigUpdate.html",message="Keikka poistettu!")
+	message = "Keikka poistettu!"
+	gig_list = gig.gig_list()
+	return render_template("upcoming_gigs.html", message=message, gig_list=gig_list)
 
 @app.route("/editGig")
 def editGig():
@@ -147,11 +161,17 @@ def gigEdited():
 	place = request.form["place"]
 	descr = request.form["descr"]
 	comp = request.form["comp"]
+	if comp == "Koko_orkesteri":
+		comp = "Koko orkesteri"
 	if gig.edit_gig(id,name,date,time,place,descr,comp):
-		return render_template("gigUpdate.html",message="Keikan tiedot päivitetty!")
+		gig_list = gig.gig_list()
+		return render_template("upcoming_gigs.html",message="Keikan tiedot päivitetty!", gig_list=gig_list)
 	else:
-		return render_template("gigUpdate.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/")
-		
+		gig_list = gig.gig_list()
+		return render_template("upcoming_gigs.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/", gig_list=gig_list)
+
+#gig composition and gig registration related routes 
+	
 @app.route("/gigReg")
 def gig_registration():
 	id = request.args.get("sid")
@@ -166,14 +186,16 @@ def reg_complete():
 	gig_id = request.form["id"]
 	user_id = users.user_id()
 	gig.add_user(gig_id,user_id,instr)
-	return render_template("gigUpdate.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!")
+	gig_list = gig.my_gigs(user_id)
+	return render_template("my_gigs.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!", gig_list=gig_list)
 
 @app.route("/del")
-def poistaIlmo():
+def del_registration():
 	gig_id = request.args.get("sid")
 	user_id = users.user_id()
 	gig.delete_user(gig_id,user_id)
-	return render_template("gigUpdate.html", message= "Poistit ilmoittautumisesi keikalle")
+	gig_list = gig.my_gigs(user_id)
+	return render_template("my_gigs.html", message= "Ilmoittautuminen poistettu!", gig_list=gig_list)
 
 @app.route("/composition")
 def gig_composition():

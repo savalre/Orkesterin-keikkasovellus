@@ -30,7 +30,7 @@ def gig_info(id):
 
 def edit_gig(id,name,date,time,place,descr,comp):
 	sql = "UPDATE keikka SET nimi = :name, pvm = :date, aika = :time, paikka = :place, kuvaus = :descr, kokoonpano = :comp WHERE keikka_id=:id"
-	db.session.execute(sql, {"nimi":name,"pvm":date,"time":time,"paikka":place,"kuvaus":descr,"kokoonpano":comp,"id":id})
+	db.session.execute(sql, {"name":name,"date":date,"time":time,"place":place,"descr":descr,"comp":comp,"id":id})
 	db.session.commit()
 	return True
 

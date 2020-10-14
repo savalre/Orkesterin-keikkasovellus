@@ -7,6 +7,9 @@
 {% block content %}
 {{ super() }}
 <div class="backgroundGradient">
+{% if message %}
+	<p><strong>{{message}}</p>
+{% endif %}
 <h3>OMAT KEIKAT</h3>
 <table>
         <thead>
@@ -20,15 +23,15 @@
                 <th></th>
                 <th></th>
         </thead>
-        {% for keikka in keikat %}
+        {% for gig in gig_list %}
         <tr>
-                <td>{{ keikka[1] }}</td>
-                <td>{{ keikka[2] }}</td>
-                <td>{{ keikka[5] }}</td>
-                <td>{{ keikka[3] }}</td>
-                <td>{{ keikka[4] }}</td>
-                <td><a href="/composition?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
-                <td><a href="/del?sid={{ keikka[0] }}">Poista ilmottautumisesi</td>
+                <td>{{ gig[1] }}</td>
+                <td>{{ gig[2] }}</td>
+                <td>{{ gig[5] }}</td>
+                <td>{{ gig[3] }}</td>
+                <td>{{ gig[4] }}</td>
+                <td><a href="/composition?skp={{ gig[6] }}&amp;sid={{ gig [0] }}">{{ gig[6] }}</td>
+                <td><a href="/del?sid={{ gig[0] }}" onclick="return confirm('Tahdotko varmasti poistaa ilmoittautumisesi keikalle {{ gig[1] }}?');">Poista ilmottautumisesi</td>
         </tr>
         {% endfor %}
 </table>

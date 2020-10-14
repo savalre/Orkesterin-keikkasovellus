@@ -8,6 +8,9 @@
 {{ super() }}
 
 <div class="backgroundGradient">
+{% if message %}
+	<p><strong>{{message}}</p>
+{% endif %}
 
 <h3>TULEVAT KEIKAT</h3>
 <table>
@@ -22,18 +25,18 @@
                 <th></th>
                 <th></th>
         </thead>
-        {% for keikka in keikat %}
+        {% for gig in gig_list %}
         <tr>
-                <td>{{ keikka[1] }}</td>
-                <td>{{ keikka[2] }}</td>
-                <td>{{ keikka[5] }}</td>
-                <td>{{ keikka[3] }}</td>
-                <td>{{ keikka[4] }}</td>
-		<td><a href="/composition?skp={{ keikka[6] }}&amp;sid={{ keikka [0] }}">{{ keikka[6] }}</td>
-                <td><a href="/gigReg?sid={{ keikka[0] }}">Ilmoittaudu keikalle</td>
+                <td>{{ gig[1] }}</td>
+                <td>{{ gig[2] }}</td>
+                <td>{{ gig[5] }}</td>
+                <td>{{ gig[3] }}</td>
+                <td>{{ gig[4] }}</td>
+		<td><a href="/composition?skp={{ gig[6] }}&amp;sid={{ gig [0] }}">{{ gig[6] }}</td>
+                <td><a href="/gigReg?sid={{ gig[0] }}">Ilmoittaudu keikalle</td>
        		 {% if session.role == 'admin' %}              
-		<td><a href="/editGig?sid={{ keikka[0] }}">Muokkaa</td><!-- vain admin -->
-                <td><a href="/deleteGig?sid={{ keikka[0] }}" onclick="return confirm('Tahdotko varmasti poistaa keikan {{ keikka[1] }}?');">Poista</td><!-- vain admin -->
+		<td><a href="/editGig?sid={{ gig[0] }}">Muokkaa</td><!-- vain admin -->
+                <td><a href="/deleteGig?sid={{ gig[0] }}" onclick="return confirm('Tahdotko varmasti poistaa keikan {{ gig[1] }}?');">Poista</td><!-- vain admin -->
        		{% endif %}
 	 </tr>
         {% endfor %}

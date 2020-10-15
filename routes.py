@@ -10,27 +10,30 @@ def index():
 
 @app.route("/admin")
 def admin_page():
-	enter = False
-	users_id = session.get("user_id",0)
-	if admin.get_role(users_id):
-		enter = True
-		admins = admin.admin_list()
-		normal_users = admin.user_list()
-		return render_template("admin.html", admins=admins, normal_users=normal_users)
-	else:
-		return render_template("error.html", message="Sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
+	if session.get("user_id",0) != 0:
+		enter = False
+		users_id = session.get("user_id",0)
+		if admin.get_role(users_id):
+			enter = True
+			admins = admin.admin_list()
+			normal_users = admin.user_list()
+			return render_template("admin.html", admins=admins, normal_users=normal_users)
+		else:
+			return render_template("error.html", message="Sinulla ei ole oikeuksia tälle sivulle, otathan yhteyttä ylläpitoon jos tämä on virhe")
 
 @app.route("/addAdmin",methods=["get"])
 def addAdmin():
-	users_id = request.args.get("sid")
-	admin.new_admin(users_id)
-	return render_template("adminUpdate.html", message="Adminoikeudet lisätty!") 
+	if session.get("user_id",0) != 0:	
+		users_id = request.args.get("sid")
+		admin.new_admin(users_id)
+		return render_template("adminUpdate.html", message="Adminoikeudet lisätty!") 
 	
 @app.route("/delAdmin",methods=["get"])
 def delAdmin():
-	users_id = request.args.get("sid")
-	admin.del_admin(users_id)
-	return render_template("adminUpdate.html",message="Adminoikeudet poistettu!")
+	if session.get("user_id",0) != 0:
+		users_id = request.args.get("sid")
+		admin.del_admin(users_id)
+		return render_template("adminUpdate.html",message="Adminoikeudet poistettu!")
 
 @app.route("/login",methods=["get","post"]) 
 def login():
@@ -41,7 +44,6 @@ def login():
 			session["username"] = username
 			session["user_id"] = users.user_id()
 			users_id = users.user_id()
-			
 			if admin.get_role(users_id) == True:
 				session["role"] = "admin"
 			else:
@@ -80,146 +82,161 @@ def register():
 		
 @app.route("/userinfo",methods=["get","post"])
 def userinfo():
-		instr = users.get_instrument()
-		status = users.active_status()
-		return render_template("userinfo.html", instr = instr, status=status)
+		if session.get("user_id",0) != 0:
+			instr = users.get_instrument()
+			status = users.active_status()
+			return render_template("userinfo.html", instr = instr, status=status)
 
 @app.route("/edit_user",methods=["get","post"])
 def edit_user():
-	instr = instrument.get_name_and_id()
-	return render_template("edit_user.html", instr=instr)
+	if session.get("user_id",0) != 0:
+		instr = instrument.get_name_and_id()
+		return render_template("edit_user.html", instr=instr)
 	
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
-	status = request.form["active"]
-	choice = request.form.getlist("soitin")
-	users.new_status(status)
-	users.change_instrument(choice)
-	return render_template("update.html", message="Profiilisi on päivitetty!")
+	if session.get("user_id",0) != 0:
+		status = request.form["active"]
+		choice = request.form.getlist("soitin")
+		users.new_status(status)
+		users.change_instrument(choice)
+		return render_template("update.html", message="Profiilisi on päivitetty!")
 
 #gig-related routes
 
 @app.route("/gig_index")
 def gig_index():
-	return render_template("gig_index.html")
+	if session.get("user_id",0) != 0:
+		return render_template("gig_index.html")
 
 @app.route("/upcoming_gigs")
 def upcoming_gigs():
-	gig_list = gig.gig_list()
-	return render_template("upcoming_gigs.html", gig_list=gig_list)
+	if session.get("user_id",0) != 0:
+		gig_list = gig.gig_list()
+		print("session user_id on ", session.get("user_id",0))
+		return render_template("upcoming_gigs.html", gig_list=gig_list)
 
 @app.route("/my_gigs")
 def my_gigs():
-	id = users.user_id()
-	gig_list = gig.my_gigs(id)
-	return render_template("my_gigs.html",gig_list=gig_list)
+	if session.get("user_id",0) != 0:
+		id = users.user_id()
+		gig_list = gig.my_gigs(id)
+		return render_template("my_gigs.html",gig_list=gig_list)
 
 @app.route("/newGig")
 def new_gig():
-	return render_template("addgig.html")
+	if session.get("user_id",0) != 0:
+		return render_template("addgig.html")
 
 @app.route("/gigAdd",methods=["post"])
 def gigAdd():
-	message = None;
-	name = request.form["name"]
-	date = request.form["date"]
-	time = request.form["time"]
-	place = request.form["place"]
-	descr = request.form["descr"]
-	comp = request.form["comp"]
-	if comp == "Koko_orkesteri":
-		comp = "Koko orkesteri"
-	if gig.add_gig(name,date,time,place,descr,comp):
-		message = "Keikka lisätty onnistuneesti!"
-		gig_list = gig.gig_list()
-		return render_template("upcoming_gigs.html", message=message, gig_list=gig_list) 
-	else:
-		message = "Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!"
-		gig_list = gig.gig_list()
-		return render_template("upcoming_gigs.html",message=message, gig_list=gig_list)
+	if session.get("user_id",0) != 0:
+		message = None;
+		name = request.form["name"]
+		date = request.form["date"]
+		time = request.form["time"]
+		place = request.form["place"]
+		descr = request.form["descr"]
+		comp = request.form["comp"]
+		if comp == "Koko_orkesteri":
+			comp = "Koko orkesteri"
+		if gig.add_gig(name,date,time,place,descr,comp):
+			message = "Keikka lisätty onnistuneesti!"
+			gig_list = gig.gig_list()
+			return render_template("upcoming_gigs.html", message=message, gig_list=gig_list) 
+		else:
+			message = "Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!"
+			gig_list = gig.gig_list()
+			return render_template("upcoming_gigs.html",message=message, gig_list=gig_list)
 
 @app.route("/deleteGig")
 def deleteGig():
-	id = request.args.get("sid")
-	gig.del_gig(id)
-	message = "Keikka poistettu!"
-	gig_list = gig.gig_list()
-	return render_template("upcoming_gigs.html", message=message, gig_list=gig_list)
+	if session.get("user_id",0) != 0:
+		id = request.args.get("sid")
+		gig.del_gig(id)
+		message = "Keikka poistettu!"
+		gig_list = gig.gig_list()
+		return render_template("upcoming_gigs.html", message=message, gig_list=gig_list)
 
 @app.route("/editGig")
 def editGig():
-	id = request.args.get("sid")
-	list = gig.gig_info(id)
-	return render_template("editGig.html",tiedot=list)
+	if session.get("user_id",0) != 0:
+		id = request.args.get("sid")
+		list = gig.gig_info(id)
+		return render_template("editGig.html",tiedot=list)
 
 @app.route("/gigEdited", methods=["post"])
 def gigEdited():
-	id = request.form["id"]
-	name = request.form["name"]
-	date = request.form["date"]
-	time = request.form["time"]
-	place = request.form["place"]
-	descr = request.form["descr"]
-	comp = request.form["comp"]
-	if comp == "Koko_orkesteri":
-		comp = "Koko orkesteri"
-	if gig.edit_gig(id,name,date,time,place,descr,comp):
-		gig_list = gig.gig_list()
-		return render_template("upcoming_gigs.html",message="Keikan tiedot päivitetty!", gig_list=gig_list)
-	else:
-		gig_list = gig.gig_list()
-		return render_template("upcoming_gigs.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/", gig_list=gig_list)
+	if session.get("user_id",0) != 0:
+		id = request.form["id"]
+		name = request.form["name"]
+		date = request.form["date"]
+		time = request.form["time"]
+		place = request.form["place"]
+		descr = request.form["descr"]
+		comp = request.form["comp"]
+		if comp == "Koko_orkesteri":
+			comp = "Koko orkesteri"
+		if gig.edit_gig(id,name,date,time,place,descr,comp):
+			gig_list = gig.gig_list()
+			return render_template("upcoming_gigs.html",message="Keikan tiedot päivitetty!", gig_list=gig_list)
+		else:
+			gig_list = gig.gig_list()
+			return render_template("upcoming_gigs.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/", gig_list=gig_list)
 
 #gig composition and gig registration related routes 
 	
 @app.route("/gigReg")
 def gig_registration():
-	id = request.args.get("sid")
-	userId = users.user_id()
-	info = gig.gig_info(id)
-	instruments = users.get_instrument()
-	return render_template("gigReg.html", info=info, instruments=instruments)
+	if session.get("user_id",0) != 0:
+		id = request.args.get("sid")
+		userId = users.user_id()
+		info = gig.gig_info(id)
+		instruments = users.get_instrument()
+		return render_template("gigReg.html", info=info, instruments=instruments)
 
 @app.route("/reg_complete", methods=["post"])
 def reg_complete():
-	instr = request.form["instr"]
-	gig_id = request.form["id"]
-	user_id = users.user_id()
-	gig.add_user(gig_id,user_id,instr)
-	gig_list = gig.my_gigs(user_id)
-	return render_template("my_gigs.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!", gig_list=gig_list)
+	if session.get("user_id",0) != 0:	
+		instr = request.form["instr"]
+		gig_id = request.form["id"]
+		user_id = users.user_id()
+		gig.add_user(gig_id,user_id,instr)
+		gig_list = gig.my_gigs(user_id)
+		return render_template("my_gigs.html", message="Ilmoittautuminen onnistui! Tervetuloa keikalle!", gig_list=gig_list)
 
 @app.route("/del")
 def del_registration():
-	gig_id = request.args.get("sid")
-	user_id = users.user_id()
-	gig.delete_user(gig_id,user_id)
-	gig_list = gig.my_gigs(user_id)
-	return render_template("my_gigs.html", message= "Ilmoittautuminen poistettu!", gig_list=gig_list)
+	if session.get("user_id",0) != 0:
+		gig_id = request.args.get("sid")
+		user_id = users.user_id()
+		gig.delete_user(gig_id,user_id)
+		gig_list = gig.my_gigs(user_id)
+		return render_template("my_gigs.html", message= "Ilmoittautuminen poistettu!", gig_list=gig_list)
 
 @app.route("/composition")
 def gig_composition():
-	gig_comp = request.args.get("skp")
-	gig_id = request.args.get("sid")
-	info = gig.gig_info(gig_id)
-	if gig_comp == "Koko_orkesteri":
-		gig_instr = instrument.get_instruments()
-		y = len(gig_instr) * 2
-		for x in range(0,y,2):
-				instr = gig_instr[x]
-				instr_id = instrument.get_instrument_id(instr)
-				kp = gig.get_players(gig_id, instr_id)
-				gig_instr.insert(x+1, kp)
-				x = x+2
-		return render_template("composition.html", gig_instr = gig_instr, info = info)
-	else: 
-		gig_instr = instrument.get_smallgroup_instruments(gig_comp)
-		y = len(gig_instr) * 2
-		for x in range(0,y,2):
-				instr = gig_instr[x]
-				instr_id = instrument.get_instrument_id(instr)
-				kp = gig.get_players(gig_id, instr_id)
-				gig_instr.insert(x+1, kp)
-				x = x+2
-		return render_template("composition.html", gig_instr = gig_instr, info = info)
-		
+	if session.get("user_id",0) != 0:
+		gig_comp = request.args.get("skp")
+		gig_id = request.args.get("sid")
+		info = gig.gig_info(gig_id)
+		if gig_comp == "Koko orkesteri":
+			gig_instr = instrument.get_instruments()
+			y = len(gig_instr) * 2
+			for x in range(0,y,2):
+					instr = gig_instr[x]
+					instr_id = instrument.get_instrument_id(instr)
+					kp = gig.get_players(gig_id, instr_id)
+					gig_instr.insert(x+1, kp)
+					x = x+2
+			return render_template("composition.html", gig_instr = gig_instr, info = info)
+		else: 
+			gig_instr = instrument.get_smallgroup_instruments(gig_comp)
+			y = len(gig_instr) * 2
+			for x in range(0,y,2):
+					instr = gig_instr[x]
+					instr_id = instrument.get_instrument_id(instr)
+					kp = gig.get_players(gig_id, instr_id)
+					gig_instr.insert(x+1, kp)
+					x = x+2
+			return render_template("composition.html", gig_instr = gig_instr, info = info)

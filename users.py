@@ -10,7 +10,7 @@ def active_status():
 	if state == True:
 		status = "Kyllä"
 		return status
-	if state == False:
+	if state == False: #muuta palauttamaan false ja true ja muokkaa kyllaa ja el routessa
 		status = "Ei"
 		return status
 
@@ -32,16 +32,12 @@ def login(username,password):
 	user = result.fetchone()
 	if user == None:
 		return False
-		#käyttäjää ei löydy -> username wrong
 	else: 
-	#käyttäjä löytyi
 		hash_value = user[0]
 		if check_password_hash(hash_value,password):
 			session["user_id"] = user[1] 
 			return True 
-			#salasana oikein
 		else: 
-		#salasana väärin
 			return False
 
 def logout():

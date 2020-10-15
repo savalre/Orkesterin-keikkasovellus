@@ -7,13 +7,14 @@
 {% block content %}
 {{ super() }}
 <div class="backgroundGradient">
-Käyttäjätunnus: {{session.username}}
+
+<p>Käyttäjätunnus: {{session.username}}</p>
 <br>
-Soittimesi: 
-{{ instr |join(", ") }}
+<p>Soittimesi:
+{{ instr |join(", ") }}</p>
 
 <br>
-Aktiivinen tällä kaudella: {{status}}
+<p>Aktiivinen tällä kaudella: {{status}}</p>
 <br>
 <br>
 <a href="/edit_user">Muokkaa tietojasi</a>

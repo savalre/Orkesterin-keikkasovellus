@@ -10,7 +10,7 @@
 <div class="backgroundGradient">
 <form action="/reg_complete" method="POST">
 
-<h3>Ilmoittautuminen keikalle</h3>
+<h2>Ilmoittautuminen keikalle</h2>
 <br>
 {% for i in info %}
 <input type="hidden" name="id" value="{{ i[0] }}">
@@ -18,13 +18,15 @@
 <p> Tämän keikan kokoonpanoksi on ilmoitettu: {{ i[6] }}</p><br>
 {% endfor %}
 <br>
-Soittimesi:
+Soittimesi:<br>
 <br>
 {% for i in instruments %}
-<input type="radio" name="instr" value="{{ i }}">{{ i }}
+<input type="radio" name="instr" value="{{ i }}">{{ i }}<br>
 {% endfor %}
+<br>
 <br> 
 <input type="submit" value="Ilmoittaudu"><br>
+<br>
 <br>
 <a href="/upcoming_gigs">Peruuta</a>
 </div>

@@ -7,10 +7,15 @@
 {% block content %}
 {{ super() }}
 <div class="backgroundGradient">
+
 {% if message %}
-	<p><strong>{{message}}</p>
+	<div class="errorBox">
+	<p><strong>{{message}}</strong></p>
+	</div>
+	<br>
 {% endif %}
-<h3>OMAT KEIKAT</h3>
+
+<h2>Omat keikat</h2>
 <table>
         <thead>
         <tr>

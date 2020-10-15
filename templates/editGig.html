@@ -13,14 +13,14 @@
 <form action="/gigEdited" method="POST">
 {% for tieto in tiedot %}
 <input type="hidden" name="id" value="{{ tieto [0] }}">
-<p>Keikan nimi:<br>
-<input type="text" name="name" value="{{ tieto[1] }}"></p>
+<p>Keikan nimi*:<br>
+<input type="text" name="name" value="{{ tieto[1] }}" required></p>
 <br>
-<p>Päivämäärä:<br>
-<input type="date" name="date" value="{{ tieto[2] }}"></p>
+<p>Päivämäärä*:<br>
+<input type="date" name="date" value="{{ tieto[2] }}" required></p>
 <br>
-<p>Kellonaika:<br>
-<input type="time" name="time" value="{{ tieto[3] }}"></p>
+<p>Kellonaika*:<br>
+<input type="time" name="time" value="{{ tieto[3] }}" required></p>
 <br>
 <p>Paikka:<br>
 <input type="text" name="place" value="{{ tieto[4] }}"></p>

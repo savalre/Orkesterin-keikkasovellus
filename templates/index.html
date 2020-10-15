@@ -37,11 +37,16 @@
 {% else %}
 
 <body>
-{% if error %}
-	<p><strong>{{error}}</p>
-{% endif %}
-<b>Tervetuloa, kirjaudu sisään!</b>
 <div class="backgroundGradient">
+<h1>SOSSun keikkasovellus</h1>
+<br>
+<h2>Tervetuloa, kirjaudu sisään!</h2>
+{% if error %}
+	<div class="errorBox">
+	<strong>{{error}}</strong>
+	</div>
+	<br>	
+{% endif %}
 <form action="/login" method="POST">
 <p>Käyttäjätunnus:<br>
 <input type="text" name="username"></p>
@@ -49,7 +54,7 @@
 <input type="password" name="password"></p>
 <input type="submit" value="Kirjaudu">
 </form>
-
+<br>
 <a href="/register">Luo uusi tunnus tästä</a>
 {% endif %}
 </div>

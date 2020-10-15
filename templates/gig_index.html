@@ -8,13 +8,14 @@
 {{ super() }}
 
 <div class="backgroundGradient">
-<br>
-<h3> Keikkasivu</h3>
-<br>
+<h2> Keikkasivu</h2><br>
 <p>Täällä voit ilmoittautua tuleville keikoille! </p><br>
 <p><a href="/my_gigs">Omat keikat</a> -sivulla näet keikat, joille olet ilmoittautunut. Keikan kokoonpanoa klikkaamalla näet ketkä muut ovat ilmoittautuneet. Tätä kautta pääset myös poistamaan oman ilmoittautumisesi haluamaltasi keikalta.</p></br>
 <p><a href="/upcoming_gigs">Tulevat keikat</a> -sivulla näet keikat, joille et ole vielä ilmoittautunut. 
 {% if session.role == 'admin' %}
+<br>
+<br>
+<br>
 <h3>Huomio admin!</h3><br>
 <p>Voit lisätä järjestelmään uuden keikan Keikkasivu-valikon painikkeesta "Lisää keikka".</p><br>
 <p>Tulevat keikat -sivulla voit poistaa keikan tai muokata sen tietoja.</p>

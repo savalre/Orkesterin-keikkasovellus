@@ -8,13 +8,12 @@
 {{ super() }}
 
 <div class="backgroundGradient">
-<h3>Admin-oikeudelliset käyttäjät</h3>
-<br>
+<h2>Admin-oikeudelliset käyttäjät</h2>
 <br>
 <table class="admin_table">
         <thead>
         <tr>
-                <th>Käyttäjä</th>
+                <th>Admin</th>
 		<th></th>
         </thead>
         {% for a in admins %}
@@ -25,9 +24,10 @@
         {% endfor %}
 </table>
 <br>
-<h3>Peruskäyttäjät</h3>
 <br>
+<h2>Peruskäyttäjät</h2>
 <br>
+
 <table class="admin_table">
 	<thead>
 	<tr>

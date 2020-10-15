@@ -113,7 +113,6 @@ def gig_index():
 def upcoming_gigs():
 	if session.get("user_id",0) != 0:
 		gig_list = gig.gig_list()
-		print("session user_id on ", session.get("user_id",0))
 		return render_template("upcoming_gigs.html", gig_list=gig_list)
 
 @app.route("/my_gigs")

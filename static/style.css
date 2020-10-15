@@ -28,7 +28,7 @@ body {
 
 table, td, th {  
   border: 1px solid #C0C0C0;
-  text-align: left;
+  text-align: center;
 }
 
 table {
@@ -43,6 +43,11 @@ th, td {
 .admin_table{
 	border-collapse: collapse;
 	width: 20%;	
+}
+
+.mygig_table{
+	border-collapse: collapse;
+	width: 60%;
 }
 
 ul {

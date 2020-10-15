@@ -9,12 +9,12 @@ def add_gig(name,date,time,place,descr,comp):
 	return True
 
 def gig_list():
-	sql = "SELECT keikka_id, nimi, pvm, paikka, kuvaus, aika, kokoonpano FROM keikka"
+	sql = "SELECT keikka_id, nimi, to_char(pvm, 'DD/MM/YYYY'), paikka, kuvaus, to_char(aika, 'HH24:MI'), kokoonpano FROM keikka"
 	result = db.session.execute(sql)
 	return result.fetchall()
 
 def my_gigs(id):
-	sql = "SELECT K.keikka_id, K.nimi, K.pvm, K.aika, K.paikka, K.kuvaus, K.kokoonpano FROM keikka K, kokoonpano Ko WHERE ko.users_id=:id AND K.keikka_id = Ko.keikka_id"
+	sql = "SELECT K.keikka_id, K.nimi, to_char(K.pvm, 'DD/MM/YYYY'), to_char(K.aika, 'HH24:MI'), K.paikka, K.kuvaus, K.kokoonpano FROM keikka K, kokoonpano Ko WHERE ko.users_id=:id AND K.keikka_id = Ko.keikka_id"
 	result = db.session.execute(sql,{"id":id})
 	return result.fetchall()
 

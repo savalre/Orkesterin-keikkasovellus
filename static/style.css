@@ -1,33 +1,38 @@
 body {
-        margin: auto;
-        font-family: "Courier New", Courier, monospace;
-        min-height: 100%;
-        width: auto;
-       	color: black;         
-       	background: linear-gradient(to bottom, white, #FFC0CB);
+	margin: auto;
+	font-family: "Courier New", Courier, monospace;
+	min-height: 100%;
+	width: auto;
+	color: black;
+	background: linear-gradient(to bottom, white, #FFC0CB);
 
 
 }
 
 .backgroundGradient{
-		color: black;
-		margin: 25px 50px;
-        height: 100%;
+	color: black;
+	margin: 25px 50px;
+	height: 100%;
 }
 
 
 table, td, th {  
-  border: 1px solid #ddd;
+  border: 1px solid #C0C0C0;
   text-align: left;
 }
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 80%;
 }
 
 th, td {
   padding: 10px;
+}
+
+.admin_table{
+	border-collapse: collapse;
+	width: 20%;	
 }
 
 ul {

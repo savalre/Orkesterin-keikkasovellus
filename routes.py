@@ -33,7 +33,7 @@ def delAdmin():
 	if session.get("user_id",0) != 0:
 		users_id = request.args.get("sid")
 		admin.del_admin(users_id)
-		return render_template("adminUpdate.html",message="Adminoikeudet poistettu!")
+		return render_template("adminUpdate.html", message="Adminoikeudet poistettu!")
 
 @app.route("/login",methods=["get","post"]) 
 def login():
@@ -52,7 +52,7 @@ def login():
 			return redirect("/")
 		else:
 			error = "Väärä käyttäjätunnus tai salasana!"
-			return render_template("index.html",error=error)
+			return render_template("index.html", error=error)
 
 @app.route("/logout", methods=["get"])
 def logout():
@@ -73,9 +73,9 @@ def register():
 				session["username"] = username
 				return redirect("/")
 			else:
-				return render_template("error.html",message="Hups, rekisteröinti ei onnistunut!")
+				return render_template("error.html", message="Hups, rekisteröinti ei onnistunut!")
 		else: 
-			return render_template("error.html",message="Salasanat eivät ole samat! Kokeile uudestaan")
+			return render_template("error.html", message="Salasanat eivät ole samat! Kokeile uudestaan")
 
 #user-related routes
 		
@@ -84,7 +84,7 @@ def userinfo():
 		if session.get("user_id",0) != 0:
 			instr = users.get_instrument()
 			status = users.active_status()
-			return render_template("userinfo.html", instr = instr, status=status)
+			return render_template("userinfo.html", instr=instr, status=status)
 
 @app.route("/edit_user",methods=["get","post"])
 def edit_user():
@@ -119,7 +119,7 @@ def my_gigs():
 	if session.get("user_id",0) != 0:
 		id = users.user_id()
 		gig_list = gig.my_gigs(id)
-		return render_template("my_gigs.html",gig_list=gig_list)
+		return render_template("my_gigs.html", gig_list=gig_list)
 
 @app.route("/newGig")
 def new_gig():
@@ -145,7 +145,7 @@ def gigAdd():
 		else:
 			message = "Oho, jotain meni pieleen eikä keikkaa luotu. Yritä uudelleen!"
 			gig_list = gig.gig_list()
-			return render_template("upcoming_gigs.html",message=message, gig_list=gig_list)
+			return render_template("upcoming_gigs.html", message=message, gig_list=gig_list)
 
 @app.route("/deleteGig")
 def deleteGig():
@@ -160,8 +160,8 @@ def deleteGig():
 def editGig():
 	if session.get("user_id",0) != 0:
 		id = request.args.get("sid")
-		list = gig.gig_info(id)
-		return render_template("editGig.html",tiedot=list)
+		gig_info = gig.gig_info(id)
+		return render_template("editGig.html", gig_info=gig_info)
 
 @app.route("/gigEdited", methods=["post"])
 def gigEdited():
@@ -177,10 +177,10 @@ def gigEdited():
 			comp = "Koko orkesteri"
 		if gig.edit_gig(id,name,date,time,place,descr,comp):
 			gig_list = gig.gig_list()
-			return render_template("upcoming_gigs.html",message="Keikan tiedot päivitetty!", gig_list=gig_list)
+			return render_template("upcoming_gigs.html", message="Keikan tiedot päivitetty!", gig_list=gig_list)
 		else:
 			gig_list = gig.gig_list()
-			return render_template("upcoming_gigs.html",message="Humps, ei onnistunut vaan jotain meni pieleen. :/", gig_list=gig_list)
+			return render_template("upcoming_gigs.html", message="Humps, ei onnistunut vaan jotain meni pieleen. :/", gig_list=gig_list)
 
 #gig composition and gig registration related routes 
 	

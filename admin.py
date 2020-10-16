@@ -1,11 +1,9 @@
 from db import db
 from flask import session
 
-
-
 def get_role(id):
 	sql = "SELECT role FROM users WHERE users_id=:id"
-	result = db.session.execute(sql,{"id":id})
+	result = db.session.execute(sql, {"id":id})
 	role = result.fetchone()[0]
 	if role == "admin":
 		return True
@@ -26,10 +24,10 @@ def user_list():
 
 def new_admin(id):
 	sql = "UPDATE users SET role='admin' WHERE users_id=:id"
-	db.session.execute(sql,{"id":id})
+	db.session.execute(sql, {"id":id})
 	db.session.commit()
 
 def del_admin(id):
 	sql = "UPDATE users SET role=NULL WHERE users_id=:id"
-	db.session.execute(sql,{"id":id})
+	db.session.execute(sql, {"id":id})
 	db.session.commit()

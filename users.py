@@ -10,7 +10,7 @@ def active_status():
 	if state == True:
 		status = "Kyllä"
 		return status
-	if state == False: #muuta palauttamaan false ja true ja muokkaa kyllaa ja el routessa
+	if state == False:
 		status = "Ei"
 		return status
 

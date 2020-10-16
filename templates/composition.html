@@ -7,6 +7,7 @@
 {% block content %}
 {{ super() }}
 <div class="container">
+
 <div>
 {% for i in info %}
 <h2>{{ i[1] }} </h2>
@@ -21,6 +22,7 @@ Keikkapaikka: {{ i[4] }}<br>
 {% endfor %}
 <br>
 </div>
+
 <div>
 <h3>Keikan kokoonpano:<br></h3>
 <br>
@@ -34,16 +36,15 @@ Keikkapaikka: {{ i[4] }}<br>
 	{% endfor %}
 	</dd>	
 <br>
-
 {% endfor %}
 </dl>
 </div>
+
 <div>
 {% if session.role == 'admin' %}
 <h3>Ketä kutsuisi keikalle?<br></h3>
 <p>Hei admin! Tässä näet aktiiviset soittajat, jotka eivät ole vielä ilmoittautuneet keikalle!</p>
 <br>
-
 <dl>
 {% for m in range(0,maybes|length,2): %}
 	<dt>{{ maybes[m] }}:</dt>
@@ -60,6 +61,6 @@ Keikkapaikka: {{ i[4] }}<br>
 </div>
 </div>
 {% endblock %}
-
 {% endif %}
+
 

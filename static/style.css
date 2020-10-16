@@ -1,16 +1,17 @@
 body {
 	margin: auto;
 	font-family: "Courier New", Courier, monospace;
-	height: 100%;
+	height: auto;
 	width: auto;
 	color: black;
 	background: linear-gradient(to bottom, white, #FFC0CB);
 }
 
+
 .backgroundGradient{
 	color: black;
 	margin: 25px 50px;
-	min-height: 100%;
+	height: 100%;
 }
 
 .errorBox{
@@ -102,7 +103,6 @@ li.dropdown {
 
 .container {
   margin: 25px 50px;
-  min-height: 100%;
   display: flex;
 }
 .container > div {

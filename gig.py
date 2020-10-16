@@ -104,7 +104,7 @@ def call_me(gig_id,instr_id):
 	sql= """SELECT U.username FROM users U, soittajat SO 
 		WHERE SO.users_id=U.users_id AND SO.soitin_id =:instr_id 
 		AND U.active_status=true AND U.username NOT IN (SELECT username FROM users U, kokoonpano K 
-		WHERE K.keikka_id=:gig_id AND U.users_id=K.users_id AND K.soitin_id =:instr_id AND U.username IS NOT NULL)"""
+		WHERE K.keikka_id=:gig_id AND U.users_id=K.users_id AND U.username IS NOT NULL)"""
 	result = db.session.execute(sql,{"gig_id":gig_id,"instr_id":instr_id})
 	maybes = result.fetchall()
 	maybes = [m[0] for m in maybes]

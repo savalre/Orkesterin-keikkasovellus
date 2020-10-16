@@ -221,7 +221,6 @@ def gig_composition():
 		if gig_comp == "Koko orkesteri":
 			gig_instr = gig.get_gigcomp_all(gig_id)
 			maybes = gig.who_you_gonna_call(gig_id,gig_comp)
-			print(maybes)
 			return render_template("composition.html", gig_instr = gig_instr, info = info,maybes=maybes)
 		else: 
 			gig_instr = gig.get_gigcomp_smallgroup(gig_id,gig_comp)

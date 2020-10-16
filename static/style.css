@@ -1,7 +1,7 @@
 body {
 	margin: auto;
 	font-family: "Courier New", Courier, monospace;
-	height: 100%;
+	min-height: 100%;
 	width: auto;
 	color: black;
 	background: linear-gradient(to bottom, white, #FFC0CB);

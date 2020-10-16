@@ -48,7 +48,6 @@ def login():
 				session["role"] = "admin"
 			else:
 				session["role"] = "normal_user"
-				
 			session["active_state"] = users.active_status()[0]
 			return redirect("/")
 		else:
@@ -220,22 +219,11 @@ def gig_composition():
 		gig_id = request.args.get("sid")
 		info = gig.gig_info(gig_id)
 		if gig_comp == "Koko orkesteri":
-			gig_instr = instrument.get_instruments()
-			y = len(gig_instr) * 2
-			for x in range(0,y,2):
-					instr = gig_instr[x]
-					instr_id = instrument.get_instrument_id(instr)
-					kp = gig.get_players(gig_id, instr_id)
-					gig_instr.insert(x+1, kp)
-					x = x+2
-			return render_template("composition.html", gig_instr = gig_instr, info = info)
+			gig_instr = gig.get_gigcomp_all(gig_id)
+			maybes = gig.who_you_gonna_call(gig_id,gig_comp)
+			print(maybes)
+			return render_template("composition.html", gig_instr = gig_instr, info = info,maybes=maybes)
 		else: 
-			gig_instr = instrument.get_smallgroup_instruments(gig_comp)
-			y = len(gig_instr) * 2
-			for x in range(0,y,2):
-					instr = gig_instr[x]
-					instr_id = instrument.get_instrument_id(instr)
-					kp = gig.get_players(gig_id, instr_id)
-					gig_instr.insert(x+1, kp)
-					x = x+2
-			return render_template("composition.html", gig_instr = gig_instr, info = info)
+			gig_instr = gig.get_gigcomp_smallgroup(gig_id,gig_comp)
+			maybes = gig.who_you_gonna_call(gig_id,gig_comp)
+			return render_template("composition.html", gig_instr = gig_instr, info = info, maybes=maybes)

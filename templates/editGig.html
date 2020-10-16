@@ -36,6 +36,7 @@
 <br>
 {% endfor %}
 <input type="submit" value="Tallenna">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 
 <br>

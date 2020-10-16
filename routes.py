@@ -1,6 +1,6 @@
 from app import app
 from flask import flash, render_template, request, redirect, session
-import users, db, instrument, gig, admin
+import users, db, instrument, gig, admin, os
 
 #login, logout, registration and admin routes
 
@@ -43,6 +43,7 @@ def login():
 		if users.login(username,password):
 			session["username"] = username
 			session["user_id"] = users.user_id()
+			session["csrf_token"] = os.urandom(17).hex()
 			users_id = users.user_id()
 			if admin.get_role(users_id) == True:
 				session["role"] = "admin"
@@ -96,6 +97,9 @@ def edit_user():
 	
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
+	if session["csrf_token"] != request.form["csrf_token"]:
+		abort(403)
+		
 	if session.get("user_id",0) != 0:
 		status = request.form["active"]
 		choice = request.form.getlist("soitin")
@@ -130,6 +134,9 @@ def new_gig():
 
 @app.route("/gigAdd",methods=["post"])
 def gigAdd():
+	if session["csrf_token"] != request.form["csrf_token"]:
+		abort(403)
+		
 	if session.get("user_id",0) != 0:
 		message = None;
 		name = request.form["name"]
@@ -168,6 +175,9 @@ def editGig():
 
 @app.route("/gigEdited", methods=["post"])
 def gigEdited():
+	if session["csrf_token"] != request.form["csrf_token"]:
+		abort(403)
+		
 	if session.get("user_id",0) != 0:
 		id = request.form["id"]
 		name = request.form["name"]

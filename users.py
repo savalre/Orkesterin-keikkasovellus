@@ -23,7 +23,7 @@ def get_instrument():
 		value = "Ei vielä valittu"
 		return value
 	else:
-		string_list = map(','.join,instrument)
+		string_list = [i[0] for i in instrument]
 		return string_list
 
 def login(username,password):

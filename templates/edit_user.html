@@ -18,21 +18,23 @@ Käyttäjätunnus: {{session.username}}
 <p>Soittimesi:</p>
 <br>
 {% for i in instr %}
-<input type="checkbox" name="soitin" value="{{ i[0] }}">{{ i[1] }}<br>
+<input type="checkbox" name="soitin" value="{{ i[0] }}" {% if i[1] in users_choice %}checked{% endif %}>{{ i[1] }}<br>
 {% endfor %}
 <br>
 <br>
 Osallistutko aktiivisesti tällä kaudella orkesterin toimintaan: <br>
 <br>
 <p>
-<input type="radio" name="active" value="True">Kyllä
-<input type="radio" name="active" value="False">Ei
+<input type="radio" name="active" value="True"{% if status == "Kyllä" %}checked{% endif %}>Kyllä
+<input type="radio" name="active" value="False"{% if status == "Ei" %}checked{% endif %}>Ei
 <p>
 <br>
 <b>Huom!</b> 
 <p> Jos olet jo ilmoittautunut keikalle soittimella jota et enää soita, ei ilmoittautumisesi poistu vaikka poistaisitkin soittimen tiedoistasi!</p>
 <p>Muistathan siis perua mahdolliset turhat ilmoittautumiset Omat keikat -osiosta!</p> 
+<br>
 <input type="submit" value="Lähetä">
+<br>
 <br>
 </form>
 <a href="/userinfo">Peruuta</a>

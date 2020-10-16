@@ -28,13 +28,13 @@
 <p>Vapaamuotoinen kuvaus:<br>
 <input type="text" name="descr" value="{{ i[5] }}"></p>
 <br>
-{% endfor %}
 <p>Kokoonpano:<br>
-<input type="radio" name="comp" value="Koko_orkesteri">Koko orkesteri
-<input type="radio" name="comp" value="Jouset">Jouset
-<input type="radio" name="comp" value="Puut">Puut
-<input type="radio" name="comp" value="Vasket">Vasket</p>
+<input type="radio" name="comp" value="Koko_orkesteri"{% if i[6] == "Koko orkesteri" %}checked{% endif %}>Koko orkesteri
+<input type="radio" name="comp" value="Jouset"{% if i[6] == "Jouset" %}checked{% endif %}>Jouset
+<input type="radio" name="comp" value="Puut"{% if i[6] == "Puut" %}checked{% endif %}>Puut
+<input type="radio" name="comp" value="Vasket"{% if i[6] == "Vasket" %}checked{% endif %}>Vasket</p>
 <br>
+{% endfor %}
 <input type="submit" value="Tallenna">
 </form>
 

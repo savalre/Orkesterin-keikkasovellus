@@ -90,7 +90,9 @@ def userinfo():
 def edit_user():
 	if session.get("user_id",0) != 0:
 		instr = instrument.get_name_and_id()
-		return render_template("edit_user.html", instr=instr)
+		users_choice = users.get_instrument()
+		status = users.active_status()		
+		return render_template("edit_user.html", instr=instr, users_choice=users_choice, status=status)
 	
 @app.route("/userUpdated", methods=["post"])
 def userUpdated():
@@ -161,6 +163,7 @@ def editGig():
 	if session.get("user_id",0) != 0:
 		id = request.args.get("sid")
 		gig_info = gig.gig_info(id)
+		print(gig_info)
 		return render_template("editGig.html", gig_info=gig_info)
 
 @app.route("/gigEdited", methods=["post"])

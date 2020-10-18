@@ -25,15 +25,14 @@
                 <th>Paikka</th>
                 <th>Kuvaus</th>
                 <th>Kokoonpano</th>
-                <th></th>
         </thead>
         {% for gig in gig_list %}
         <tr>
                 <td>{{ gig[1] }}</td>
                 <td>{{ gig[2] }}</td>
-                <td>{{ gig[5] }}</td>
                 <td>{{ gig[3] }}</td>
                 <td>{{ gig[4] }}</td>
+                <td>{{ gig[5] }}</td>
                 <td><a href="/composition?skp={{ gig[6] }}&amp;sid={{ gig [0] }}">{{ gig[6] }}</td>
                 <td><a href="/del?sid={{ gig[0] }}" onclick="return confirm('Tahdotko varmasti poistaa ilmoittautumisesi keikalle {{ gig[1] }}?');">Poista ilmottautumisesi</td>
         </tr>

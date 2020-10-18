@@ -71,6 +71,7 @@ def register():
 		if password1 == password2:
 			password = password1;
 			if users.register(username,password):
+				session["csrf_token"] = os.urandom(17).hex()
 				session["username"] = username
 				return redirect("/")
 			else:

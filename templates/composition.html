@@ -6,9 +6,9 @@
 
 {% block content %}
 {{ super() }}
-<div class="container" style="height: 900.433px">
+<div class="container">
 
-<div>
+<div style="border: 2px solid #C0C0C0; border-radius:8px;">
 {% for i in info %}
 <h2>{{ i[1] }} </h2>
 
@@ -23,7 +23,7 @@ Keikkapaikka: {{ i[4] }}<br>
 <br>
 </div>
 
-<div>
+<div style="border: 2px solid #C0C0C0; border-radius:8px;">
 <h3>Keikan kokoonpano:<br></h3>
 <br>
 <dl>
@@ -38,10 +38,12 @@ Keikkapaikka: {{ i[4] }}<br>
 <br>
 {% endfor %}
 </dl>
-</div>
+</div
 
-<div>
+
+<div class="container">
 {% if session.role == 'admin' %}
+<div style="border: 2px solid #C0C0C0; border-radius:8px;">
 <h3>Ketä kutsuisi keikalle?<br></h3>
 <p>Hei admin! Tässä näet aktiiviset soittajat, jotka eivät ole vielä ilmoittautuneet keikalle!</p>
 <br>
@@ -57,9 +59,9 @@ Keikkapaikka: {{ i[4] }}<br>
 <br>
 {% endfor %}
 </dl>
-{% endif %}
 </div>
-
+</div>
+{% endif %}
 </div>
 {% endblock %}
 {% endif %}

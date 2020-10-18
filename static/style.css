@@ -107,8 +107,6 @@ li.dropdown {
 }
 .container > div {
   flex: 1;
-  border: 2px solid #C0C0C0;
-  border-radius: 8px;
   margin: 2px;
   padding: 10px;
 }

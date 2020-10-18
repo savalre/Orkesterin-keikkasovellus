@@ -12,8 +12,10 @@
 <form action="/gigAdd" method="POST">
 <h2>Lisää uusi keikka</h2>
 <br>
+<b>Huom!<b><p> Jos käytät selaimena Safaria, syötä keikan päivämäärä muodossa YYYY/MM/DD!</p>
+<br>
 <p>Keikan nimi*:<br>
-<input type="text" name="name" required></p>
+<input type="text" name="name" maxlength="50" required></p>
 <br>
 <p>Päivämäärä*:<br>
 <input type="date" name="date" required></p>
@@ -22,10 +24,10 @@
 <input type="time" name="time" required></p>
 <br>
 <p>Paikka:<br>
-<input type="text" name="place"></p>
+<input type="text" name="place" maxlength="50"></p>
 <br>
 <p>Vapaamuotoinen kuvaus:<br>
-<input type="text" name="descr"></p>
+<input type="text" name="descr"maxlength="70"></p>
 <br>
 <p>Kokoonpano*:<br>
 <input type="radio" name="comp" value="Koko_orkesteri">Koko orkesteri

@@ -15,7 +15,6 @@ Sovellusta voi testata Herokussa: https://orkesterinkeikkasovellus.herokuapp.com
 <br>
 
  - Käyttäjän toimintoja pääsee testaamaan luomalla itselleen tunnukset järjestelmään.
-  - Admin-puolta pääsee testaamaan väliaikaisilla admintunnuksilla (käyttäjätunnus,salasana): testinuotti, 1234
 <br>
 <h3>Peruskäyttäjä voi:</h3>
 <br>
